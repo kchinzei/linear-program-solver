@@ -12,20 +12,20 @@ JS/TS wrapper for [simplex (C++) by jeronimonunes][https://github.com/jeronimonu
 ## Requirements
 
 - C++ compiler with C++-17 support.
-- [linear-program-parser 1.0.11 or newer][https://www.npmjs.com/package/linear-program-parser].
-- [jeronimonunes/simplex][https://github.com/jeronimonunes/simplex].
-- [bigint][https://github.com/jeronimonunes/bigint].
+- [linear-program-parser 1.0.11 or newer](https://www.npmjs.com/package/linear-program-parser).
+- [jeronimonunes/simplex](https://github.com/jeronimonunes/simplex).
+- [bigint](https://github.com/jeronimonunes/bigint).
 - Node 11.15.0 or newer.
 
 ## Description
 
-Linear-program-solver is a JavaScript / TypeScript wrapper to [simplex C++ engine by jeronimonunes][https://github.com/jeronimonunes/simplex].
-It's intended to be used together with [linear-program-parser][https://www.npmjs.com/package/linear-program-parser] linear program parser.
+Linear-program-solver is a JavaScript / TypeScript wrapper to [simplex C++ engine by jeronimonunes](https://github.com/jeronimonunes/simplex).
+It's intended to be used together with [linear-program-parser](https://www.npmjs.com/package/linear-program-parser) linear program parser.
 There are several linear program solvers found in npm.
-[Linear-program-parser][https://www.npmjs.com/package/linear-program-parser] is the newest and personally easy to use among them.
+[Linear-program-parser](https://www.npmjs.com/package/linear-program-parser) is the newest and personally easy to use among them.
 But this is a parser to generate a standard form.
-You need to provide it [simplex][https://github.com/jeronimonunes/simplex] with nicely arrange the standard form to a simplex tableau.
-Linear prorgram solver can accept the output of [Linear-program-parser][https://www.npmjs.com/package/linear-program-parser] directly.
+You need to provide it [simplex](https://github.com/jeronimonunes/simplex) with nicely arrange the standard form to a simplex tableau.
+Linear prorgram solver can accept the output of [linear-program-parser](https://www.npmjs.com/package/linear-program-parser) directly.
 
 ## Code snippet
 
@@ -45,9 +45,9 @@ const linearProgram = parse(`max(-3a -4b +5c -5d)
         c >= 0;
         d >= 0;
 `);
- 
+
 const fpi = linearProgram.toFPI();
- 
+
 const { result, solution, vars } = simplex.solve(fpi.toMatrix());
 
 // const result: { 'otima' | 'ilimitada' | 'inviavel' };

@@ -1,0 +1,3 @@
+[submodule "simplex"]
+	path = simplex
+	url = https://github.com/jeronimonunes/simplex
