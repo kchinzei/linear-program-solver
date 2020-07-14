@@ -1,7 +1,7 @@
 {
   'targets': [
     {
-      'target_name': 'linear-programin-solver',
+      'target_name': 'linear-programing-solver',
       'sources': [
         'src/simplex.cpp',
         'simplex/src/Base.cc',
@@ -20,7 +20,9 @@
       'cflags!': [ '-fno-exceptions' ],
       'cflags_cc!': [ '-fno-exceptions', '-fno-rtti' ],
       'include_dirs': [
-        "<!@(node -p \"require('node-addon-api').include\")"
+        "<!@(node -p \"require('node-addon-api').include\")",
+        "simplex/src",
+        "simplex/bigint",
       ],
       'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS' ],
       'conditions': [

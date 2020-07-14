@@ -7,7 +7,7 @@
 -->
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-JS/TS wrapper for [simplex (C++) by jeronimonunes][https://github.com/jeronimonunes/simplex]
+JS/TS wrapper for [simplex by jeronimonunes](https://github.com/jeronimonunes/simplex)
 
 ## Requirements
 
@@ -27,7 +27,7 @@ But this is a parser to generate a standard form.
 You need to provide it [simplex](https://github.com/jeronimonunes/simplex) with nicely arrange the standard form to a simplex tableau.
 Linear prorgram solver can accept the output of [linear-program-parser](https://www.npmjs.com/package/linear-program-parser) directly.
 
-## Code snippet
+## Code snippets
 
 ```TypeScript
 
@@ -50,12 +50,12 @@ const fpi = linearProgram.toFPI();
 
 const { result, solution, vars } = simplex.solve(fpi.toMatrix());
 
-// const result: { 'otima' | 'ilimitada' | 'inviavel' };
+// const result: ( 'otima' | 'ilimitada' | 'inviavel' );
 // const solution: number[];
 // const vars: string[];
 ```
 
-*Result* is either of 'otima', 'ilimitada', 'inviavel' (in portogiese), which mean 'great, a feasible solution found in limited iterations', 'okey, a solution found but iteration didn't finish withing limited times', 'sorry, it's infeasible to solve'.
+*Result* is either of 'otima', 'ilimitada', 'inviavel' (in Portuguese), which mean 'great, a feasible solution found in limited iterations', 'okey, a solution found but iteration didn't finish within limited times', 'sorry, it's infeasible to solve'.
 
 *Solution* and *vars* are in pair. *Vars* is an array of given variables to solve and slack variables (*f_1* ... ). If a given variable is not constrained nonnegative, it is replaced by two nonnegative variables. If your variable is *x*, it will be *xp* and *xn*.
 
@@ -76,4 +76,4 @@ If you see an error message like
   ...
 ```
 
-You need to manage to get one. For Raspberry pi, it temporalily downloads gcc version 9.1 binary.
+You need to manage to get one. For Raspberry pi, it temporarily downloads gcc version 9.1 binary.
