@@ -1,8 +1,40 @@
+/*
+The MIT License (MIT)
+
+Copyright (c) Kiyo Chinzei (kchinzei@gmail.com)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
+/*
+  linear-program-solver
+  Kiyo Chinzei
+  https://github.com/kchinzei/linear-program-solver
+*/
+
 #include <napi.h>
 #include "BigInteger.hh"
 #include "Fraction.hh"
 #include "Simplex.hh"
 #include "Tabloid.hh"
+
+#define WRAPPER_FUNCTION_NAME "simplex_wrapper"
 
 using namespace std;
 
@@ -13,7 +45,7 @@ bool isFraction(Napi::Value val) {
     if (!val.IsObject())
         return false;
     Napi::Object obj = val.As<Napi::Object>();
-    if (obj.Has("n") && obj.Has("d") && obj.Has("s"))
+    if (obj.Has("numerator") && obj.Has("denominator"))
         return true;
     else
         return false;
@@ -21,14 +53,13 @@ bool isFraction(Napi::Value val) {
 
 Fraction Obj2Fraction(Napi::Value val) {
     Napi::Object obj = val.As<Napi::Object>();
+    bool lossless = false;
 
-    uint32_t n = obj.Get("n").As<Napi::Number>();
-    uint32_t d = obj.Get("d").As<Napi::Number>();
-    int s = obj.Get("s").As<Napi::Number>();
+    int64_t n = obj.Get("numerator").As<Napi::BigInt>().Int64Value(&lossless);
+    int64_t d = obj.Get("denominator").As<Napi::BigInt>().Int64Value(&lossless);
 
-    BigInteger::Sign S = (BigInteger::Sign) s;
-    BigInteger N = BigInteger(BigUnsigned(n), S);
-    BigInteger D = BigInteger(BigUnsigned(d));
+    BigInteger N = BigInteger((long)n);
+    BigInteger D = BigInteger((long)d);
     Fraction f = Fraction(N, D);
     return f;
 }
@@ -36,6 +67,10 @@ Fraction Obj2Fraction(Napi::Value val) {
 /*
   export function solve(a: Fraction[][], b:Fraction[], c: Fraction[], vars: string[])
   : { result: ( 'otima' | 'ilimitada' | 'inviavel' ), solution: number[], vars: string[] }
+ */
+/*
+  Acknowledgement:
+  Part of code translated from Main.cc, Io,cc in https://github.com/jeronimonunes/simplex
  */
 Napi::Value Solve(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
@@ -189,9 +224,9 @@ Napi::Value Solve(const Napi::CallbackInfo& info) {
 }
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
-  exports.Set(Napi::String::New(env, "solve"),
+  exports.Set(Napi::String::New(env, WRAPPER_FUNCTION_NAME),
               Napi::Function::New(env, Solve));
   return exports;
 }
 
-NODE_API_MODULE(simplex, Init)
+NODE_API_MODULE(simplex_wrapper, Init)

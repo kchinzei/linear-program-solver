@@ -58,8 +58,7 @@ $RECYCLE.BIN/
 .nyc_output
 .yarn-integrity
 bower_components
-build/Release
-coverage
+coverage/
 declarations/
 dist/
 jspm_packages/

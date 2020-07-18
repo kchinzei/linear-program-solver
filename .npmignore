@@ -63,8 +63,7 @@ $RECYCLE.BIN/
 .yarn-integrity
 __tests__/
 bower_components
-build/Release
-coverage
+coverage/
 jest.config.js
 jspm_packages/
 lib-cov
@@ -78,5 +77,4 @@ typings/
 yarn-debug.log*
 yarn-error.log*
 simplex/
-build/Release/obj.target
-build/Debug
+build/

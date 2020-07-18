@@ -5,6 +5,7 @@
 [![Build Status](https://travis-ci.org/kchinzei/raspi-pca9685-pwm.svg?branch=fakemorph)](https://travis-ci.org/kchinzei/raspi-pca9685-pwm)
 [![Coverage Status](https://coveralls.io/repos/github/kchinzei/raspi-pca9685-pwm/badge.svg?branch=fakemorph)](https://coveralls.io/github/kchinzei/raspi-pca9685-pwm?branch=fakemorph)
 -->
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 JS/TS wrapper for [simplex by jeronimonunes](https://github.com/jeronimonunes/simplex)
@@ -55,9 +56,9 @@ const { result, solution, vars } = simplex.solve(fpi.toMatrix());
 // const vars: string[];
 ```
 
-*Result* is either of 'otima', 'ilimitada', 'inviavel' (in Portuguese), which mean 'great, a feasible solution found in limited iterations', 'okey, a solution found but iteration didn't finish within limited times', 'sorry, it's infeasible to solve'.
+_Result_ is either of 'otima', 'ilimitada', 'inviavel' (in Portuguese), which mean 'great, a feasible solution found in limited iterations', 'okey, a solution found but iteration didn't finish within limited times', 'sorry, it's infeasible to solve'.
 
-*Solution* and *vars* are in pair. *Vars* is an array of given variables to solve and slack variables (*f_1* ... ). If a given variable is not constrained nonnegative, it is replaced by two nonnegative variables. If your variable is *x*, it will be *xp* and *xn*.
+_Solution_ and _vars_ are in pair. _Vars_ is an array of given variables to solve and slack variables (_f_1_ ... ). If a given variable is not constrained nonnegative, it is replaced by two nonnegative variables. If your variable is _x_, it will be _xp_ and _xn_.
 
 ## Install
 
@@ -67,7 +68,6 @@ npm i linear-program-solver
 
 During installation, it checks if your C++ compiler supports C++-17.
 If you see an error message like
-
 
 ```Shell
 > npm i linear-program-solver

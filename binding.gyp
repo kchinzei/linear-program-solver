@@ -1,9 +1,9 @@
 {
   'targets': [
     {
-      'target_name': 'linear-programing-solver',
+      'target_name': 'simplex_wrapper',
       'sources': [
-        'src/simplex.cpp',
+        'src/simplex_wrapper.cc',
         'simplex/src/Base.cc',
 	'simplex/src/Matrix.cc',
         'simplex/src/Fraction.cc',

@@ -2,7 +2,7 @@
   "name": "linear-program-solver",
   "version": "0.1.0",
   "description": "Wrapper package for simplex solver",
-  "main": "dist/index.js",
+  "main": "build/Release/linear-program-solver.node",
   "scripts": {
     "prebuild": "lint",
     "build": "tsc",
@@ -54,6 +54,6 @@
     "type": "git",
     "url": "git+https://github.com/kchinzei/linear-program-solver.git"
   },
-  "types": "./declarations/index.d.ts",
+  "types": "./declarations/linear-program-solver.d.ts",
   "gypfile": true
 }
