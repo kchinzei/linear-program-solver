@@ -35,6 +35,7 @@ THE SOFTWARE.
 #include "Tabloid.hh"
 
 #define WRAPPER_FUNCTION_NAME "simplex_wrapper"
+#define USAGE ": { a: Fraction[][]; b: Fraction[]; c: Fraction[]; vars: string[] } => \n { result: ( 'otima' | 'ilimitada' | 'inviavel' ), solution: number[], vars: string[] }"
 
 using namespace std;
 
@@ -64,6 +65,11 @@ Fraction Obj2Fraction(Napi::Value val) {
     return f;
 }
 
+Napi::Value Usage(Napi::Env env, string msg) {
+    Napi::TypeError::New(env, msg + "\nUsage: " + WRAPPER_FUNCTION_NAME + USAGE).ThrowAsJavaScriptException();
+    return env.Null();
+}
+
 /*
   export function solve(a: Fraction[][], b:Fraction[], c: Fraction[], vars: string[])
   : { result: ( 'otima' | 'ilimitada' | 'inviavel' ), solution: number[], vars: string[] }
@@ -75,75 +81,54 @@ Fraction Obj2Fraction(Napi::Value val) {
 Napi::Value Solve(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
 
-  if (info.Length() != 4) {
-    Napi::TypeError::New(env, "Wrong number of arguments: expecting 4").ThrowAsJavaScriptException();
-    return env.Null();
-  }
-  if (!info[0].IsArray()) {
-      Napi::TypeError::New(env, "Wrong arguments: expecting a[]").ThrowAsJavaScriptException();
-      return env.Null();
-  }
-  if (!info[1].IsArray()) {
-      Napi::TypeError::New(env, "Wrong arguments: expecting b[]").ThrowAsJavaScriptException();
-      return env.Null();
-  }
-  if (!info[2].IsArray()) {
-      Napi::TypeError::New(env, "Wrong arguments: expecting c[]").ThrowAsJavaScriptException();
-      return env.Null();
-  }
-  if (!info[3].IsArray()) {
-      Napi::TypeError::New(env, "Wrong arguments: expecting vars[]").ThrowAsJavaScriptException();
-      return env.Null();
-  }
+  if (info.Length() != 1)
+      return Usage(env, "Wrong number of arguments: expecting 1");
+  if (!info[0].IsObject())
+      return Usage(env, "Wrong argument.");
 
-  Napi::Array a = info[0].As<Napi::Array>();
-  Napi::Array b = info[1].As<Napi::Array>();
-  Napi::Array c = info[2].As<Napi::Array>();
-  Napi::Array vars = info[3].As<Napi::Array>();
+  Napi::Object obj = info[0].As<Napi::Object>();
+  if (!obj.Has("a") || !obj.Has("b") || !obj.Has("c") || !obj.Has("vars"))
+      return Usage(env, "Wrong argument.");
+  Napi::Value va = obj.Get("a");
+  Napi::Value vb = obj.Get("b");
+  Napi::Value vc = obj.Get("c");
+  Napi::Value vv = obj.Get("vars");
+  if (!va.IsArray() || !vb.IsArray() || !vc.IsArray() || !vv.IsArray())
+      return Usage(env, "Wrong arguments: expecting array");
+
+  Napi::Array a = va.As<Napi::Array>();
+  Napi::Array b = vb.As<Napi::Array>();
+  Napi::Array c = vc.As<Napi::Array>();
+  Napi::Array vars = vv.As<Napi::Array>();
 
   // Consistency check
+  // FIXME: why 'a[0].IsArray()' got error?
   Napi::Value aTmp = a[(uint32_t)0];
-  if (!aTmp.IsArray()) {
-      Napi::TypeError::New(env, "Wrong arguments: expecting a[][]").ThrowAsJavaScriptException();
-      return env.Null();
-  }
-  Napi::Array aa = aTmp.As<Napi::Array>();
+  if (!aTmp.IsArray())
+      return Usage(env, "Wrong arguments: expecting a[][]");
 
   uint32_t asiz = a.Length();
   uint32_t bsiz = b.Length();
   uint32_t csiz = c.Length();
   uint32_t vsiz = vars.Length();
+  Napi::Array aa = aTmp.As<Napi::Array>();
   uint32_t aasiz = aa.Length();
 
-  if (asiz != bsiz) {
-      Napi::TypeError::New(env, "Wrong arguments: expecting a.length === b.length").ThrowAsJavaScriptException();
-      return env.Null();
-  }
-  if (aasiz != csiz) {
-      Napi::TypeError::New(env, "Wrong arguments: expecting a[0].length === c.length").ThrowAsJavaScriptException();
-      return env.Null();
-  }
-  if (csiz != vsiz) {
-      Napi::TypeError::New(env, "Wrong arguments: expecting c.length === vars.length").ThrowAsJavaScriptException();
-      return env.Null();
-  }
-  if (!isFraction(aa[(uint32_t)0])) {
-      Napi::TypeError::New(env, "Wrong arguments: expecting a: Fraction[][]").ThrowAsJavaScriptException();
-      return env.Null();
-  }
-  if (!isFraction(b[(uint32_t)0])) {
-      Napi::TypeError::New(env, "Wrong arguments: expecting b: Fraction[]").ThrowAsJavaScriptException();
-      return env.Null();
-  }
-  if (!isFraction(c[(uint32_t)0])) {
-      Napi::TypeError::New(env, "Wrong arguments: expecting c: Fraction[]").ThrowAsJavaScriptException();
-      return env.Null();
-  }
+  if (asiz != bsiz)
+      return Usage(env, "Wrong arguments: expecting a.length === b.length");
+  if (aasiz != csiz)
+      return Usage(env, "Wrong arguments: expecting a[0].length === c.length");
+  if (csiz != vsiz)
+      return Usage(env, "Wrong arguments: expecting c.length === vars.length");
+  if (!isFraction(aa[(uint32_t)0]))
+      return Usage(env, "Wrong arguments: expecting a: Fraction[][] of 'linear-program-parser', NOT that of 'fraction.js'.");
+  if (!isFraction(b[(uint32_t)0]))
+      return Usage(env, "Wrong arguments: expecting b: Fraction[] of 'linear-program-parser', NOT that of 'fraction.js'.");
+  if (!isFraction(c[(uint32_t)0]))
+      return Usage(env, "Wrong arguments: expecting c: Fraction[] of 'linear-program-parser', NOT that of 'fraction.js'.");
   Napi::Value vars0 = vars[(uint32_t)0];
-  if (!vars0.IsString()) {
-      Napi::TypeError::New(env, "Wrong arguments: expecting vars: string[]").ThrowAsJavaScriptException();
-      return env.Null();
-  }
+  if (!vars0.IsString())
+      return Usage(env, "Wrong arguments: expecting vars: string[]");
 
   // Prepare the tablau
   Matrix A;
@@ -167,6 +152,7 @@ Napi::Value Solve(const Napi::CallbackInfo& info) {
   
   for (i=0; i< bsiz; i++) {
       Vector restrictionLine;
+      // FIXME: how to avoid 'a[i][j].As<>()' got error?
       Napi::Value aiv = a[i];
       Napi::Array ai = aiv.As<Napi::Array>();
       for (j=0; j<csiz; j++) {
@@ -189,21 +175,21 @@ Napi::Value Solve(const Napi::CallbackInfo& info) {
   switch (result.type) {
   case ResultType::ILIMITED:
       rStr = "ilimitada";
-      cerr << rStr << endl;
-      cerr << result.solution << endl;
-      cerr << result.certificate << endl;
+      // cerr << rStr << endl;
+      // cerr << result.solution << endl;
+      // cerr << result.certificate << endl;
       break;
   case ResultType::INFEASIBLE:
       rStr = "inviavel";
-      cerr << rStr << endl;
-      cerr << result.certificate << endl;
+      // cerr << rStr << endl;
+      // cerr << result.certificate << endl;
       break;
   case ResultType::LIMITED:
       rStr = "otima";
-      cerr << rStr << endl;
-      cerr << result.value << endl;
-      cerr << result.solution << endl;
-      cerr << result.certificate << endl;
+      // cerr << rStr << endl;
+      // cerr << result.value << endl;
+      // cerr << result.solution << endl;
+      // cerr << result.certificate << endl;
       break;
   }
 

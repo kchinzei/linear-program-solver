@@ -98,7 +98,7 @@ describe.each([
     const linearProgram = parse(problem);
     const fpi: Fpi = linearProgram.toFPI();
     const tableau: {a: Fraction[][]; b: Fraction[]; c: Fraction[]; vars: string[]} = fpi.toMatrix();
-    const { result, solution, vars } = simplex(tableau.a, tableau.b, tableau.c, tableau.vars);
+    const { result, solution, vars } = simplex(tableau);
 
     expect(res).toBe(result);
     expect(findSolution('a', solution, vars)).toBeCloseTo(a);
@@ -132,8 +132,7 @@ describe.each([
   test(`${i++}. Examine answer given by https://jeronimonunes.github.io/simplex-web`, () => {
     const linearProgram = parse(problem);
     const fpi: Fpi = linearProgram.toFPI();
-    const tableau: {a: Fraction[][]; b: Fraction[]; c: Fraction[]; vars: string[]} = fpi.toMatrix();
-    const { result, solution, vars } = simplex(tableau.a, tableau.b, tableau.c, tableau.vars);
+    const { result, solution, vars } = simplex(fpi.toMatrix());
 
     expect(res).toBe(result);
     expect(findSolution('a', solution, vars)).toBeCloseTo(a);
@@ -167,10 +166,8 @@ describe.each([
 ])('', (problem, res) => {
   test(`${i++}. Examine answer given by https://jeronimonunes.github.io/simplex-web`, () => {
     const linearProgram = parse(problem);
-    const fpi: Fpi = linearProgram.toFPI();
-    const tableau: {a: Fraction[][]; b: Fraction[]; c: Fraction[]; vars: string[]} = fpi.toMatrix();
     // @ts-ignore: TS6133
-    const { result, solution, vars } = simplex(tableau.a, tableau.b, tableau.c, tableau.vars);
+    const { result, solution, vars } = simplex(linearProgram.toFPI().toMatrix());
 
     expect(res).toBe(result);
   });
@@ -208,10 +205,7 @@ describe.each([
 
 ])('', (problem, res, a, b, c, d) => {
   test(`${i++}. Examine answer given by https://jeronimonunes.github.io/simplex-web`, () => {
-    const linearProgram = parse(problem);
-    const fpi: Fpi = linearProgram.toFPI();
-    const tableau: {a: Fraction[][]; b: Fraction[]; c: Fraction[]; vars: string[]} = fpi.toMatrix();
-    const { result, solution, vars } = simplex(tableau.a, tableau.b, tableau.c, tableau.vars);
+    const { result, solution, vars } = simplex(parse(problem).toFPI().toMatrix());
 
     expect(res).toBe(result);
     expect(findSolution('a', solution, vars)).toBeCloseTo(a);

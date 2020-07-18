@@ -36,7 +36,7 @@ import { Fraction } from 'linear-program-parser';
 const simplexWrapper = require('bindings')('simplex_wrapper');
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-export const simplex: (a: Fraction[][], b:Fraction[], c: Fraction[], vars: string[]) => { result: ( 'otima' | 'ilimitada' | 'inviavel' ); solution: number[]; vars: string[] } = simplexWrapper.simplex_wrapper;
+export const simplex: (arg: { a: Fraction[][]; b: Fraction[]; c: Fraction[]; vars: string[] }) => { result: ( 'otima' | 'ilimitada' | 'inviavel' ); solution: number[]; vars: string[] } = simplexWrapper.simplex_wrapper;
 
 /*
   Find solution in vars by variableName.
