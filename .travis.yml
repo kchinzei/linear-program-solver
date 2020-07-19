@@ -38,7 +38,7 @@ os: "linux"
   "node_js":
     - "14"
     
-script: "npm run test"
+script: "npm run travis"
 before_script:
     - npm install typescript
     - npm install node-gyp
@@ -48,6 +48,7 @@ before_script:
     - npm install -D npm-run-all
     - npm install -D prettier eslint-config-prettier eslint-plugin-prettier
     - npm install -D eslint-plugin-prefer-arrow
+    - npm install -D coveralls
     - npm install bingings
     - npm install node-addon-api
     - npm install linear-program-parser

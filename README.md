@@ -1,11 +1,8 @@
 # Linear Program Solver
 
-<!--
-[![npm version](https://badge.fury.io/js/raspi-pca9685-pwm.svg)](https://badge.fury.io/js/raspi-pca9685-pwm)
-[![Build Status](https://travis-ci.org/kchinzei/raspi-pca9685-pwm.svg?branch=fakemorph)](https://travis-ci.org/kchinzei/raspi-pca9685-pwm)
-[![Coverage Status](https://coveralls.io/repos/github/kchinzei/raspi-pca9685-pwm/badge.svg?branch=fakemorph)](https://coveralls.io/github/kchinzei/raspi-pca9685-pwm?branch=fakemorph)
--->
-
+[![npm version](https://badge.fury.io/js/linear-program-solver.svg)](https://badge.fury.io/js/linear-program-solver)
+[![Build Status](https://travis-ci.org/kchinzei/linear-program-solver.svg?branch=master)](https://travis-ci.org/kchinzei/linear-program-solver)
+[![Coverage Status](https://coveralls.io/repos/github/kchinzei/linear-program-solver/badge.svg?branch=master)](https://coveralls.io/github/kchinzei/linear-program-solver?branch=master)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 JS/TS wrapper for [simplex](https://github.com/jeronimonunes/simplex) linear programming solver by jeronimonunes
@@ -168,4 +165,4 @@ SOFTWARE.
 
 https://mattmccutchen.net/bigint/
 
-I, Matt McCutchen, the sole author of the original Big Integer Library, waive my copyright to it, placing it in the public domain.  The library comes with absolutely no warranty.
+I, Matt McCutchen, the sole author of the original Big Integer Library, waive my copyright to it, placing it in the public domain. The library comes with absolutely no warranty.

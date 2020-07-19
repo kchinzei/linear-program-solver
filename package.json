@@ -14,7 +14,9 @@
     "lint:prettier": "prettier -l \"**/*.{json,md,yml}\"",
     "lint:type": "tsc --noEmit",
     "test": "run-s lint test:*",
-    "test:unit": "jest"
+    "test:unit": "jest",
+    "travis": "run-s preinstall build test jest:coveralls",
+    "jest:coveralls": "jest --coverage && coveralls < coverage/lcov.info"
   },
   "keywords": [
     "linear programming",
