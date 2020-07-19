@@ -27,11 +27,11 @@
 #
 ---
 os: "linux"
-dist: "xenial"
+dist: "bionic"
 arch:
   - "arm64"
-env:
-  - CXX=clang
+compiler:
+  - gcc
 language: node_js
 "node_js":
   - "14"
@@ -45,6 +45,6 @@ before_install:
   - npm install -D npm-run-all
   - npm install -D eslint-plugin-prefer-arrow
   - npm install -D coveralls
-  - npm install bingings
+  - npm install bindings
   - npm install node-addon-api
   - npm install linear-program-parser
