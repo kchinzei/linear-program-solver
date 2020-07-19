@@ -8,7 +8,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-JS/TS wrapper for [simplex by jeronimonunes](https://github.com/jeronimonunes/simplex)
+JS/TS wrapper for [simplex](https://github.com/jeronimonunes/simplex) linear programming solver by jeronimonunes
 
 ## Requirements
 
@@ -17,6 +17,7 @@ JS/TS wrapper for [simplex by jeronimonunes](https://github.com/jeronimonunes/si
 - [jeronimonunes/simplex](https://github.com/jeronimonunes/simplex).
 - [bigint](https://github.com/jeronimonunes/bigint).
 - Node 11.15.0 or newer.
+- Currently tested on macOS and Linux including Raspberry Pi.
 
 ## Description
 
@@ -63,7 +64,7 @@ _Result_ is either of 'otima', 'ilimitada', 'inviavel' (in Portuguese), which me
 - _okey, a solution found but iteration didn't converge_,
 - _sorry, it's infeasible to solve_.
 
-_Solution_ and _vars_ are in pair. _Vars_ is an array of given variables to solve and slack variables (_f_1_ ... ).
+_Solution_ and _vars_ are in pair. _Vars_ is an array of given variables to solve with slack variables automatically introduced by the parser (_f_1_ ... ).
 If a given variable is not constrained nonnegative, it is replaced by two nonnegative variables.
 If your variable is _x_, it will be _xp_ and _xn_.
 
@@ -77,22 +78,39 @@ If _variableName_ is not in _vars_, it returns NaN.
 ## Install
 
 ```Shell
-npm i linear-program-solver
+> npm i linear-program-solver
 ```
 
-<!--
-During installation, it checks if your C++ compiler supports C++-17.
-If you see an error message like
+### Trouble shooting
+
+#### Error _'Compiler needs to support C++-17 or newer. Abort'_
+
+This is likely your C++ compiler (c++ by default) does not support C++-17. You can specify other compiler by setting CXX environment parameter.
 
 ```Shell
-> npm i linear-program-solver
-  ...
-  Build error: C++ compiler that supports c++-17 or newer required.
-  ...
+> export CXX=/your/new/c++/Compiler
 ```
 
-You need to manage to get one. For Raspberry pi, it temporarily downloads gcc version 9.1 binary.
--->
+#### Compile error at Release/.../simplex_wrapper.o
+
+Some Linux has a pretty old node-gyp that came with apt install. You can install the latest node-gyp by
+
+```Shell
+> npm i -g node-gyp
+```
+
+#### Failed to install to Windows
+
+Sorry, install scripts are written for Unix and I am not experienced in Windows development. But the main code would and should work on Windows. If you can volunteer, very welcome.
+
+If you already have C++ compiler, python, node-gyp and installed all dependent modules, you can manually build it from command console,
+
+```Shell
+> git clone https://github.com/kchinzei/linear-program-solver.git
+> cd linear-program-solver
+> node-gyp rebuild
+> npm run build
+```
 
 ## Credits
 

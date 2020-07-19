@@ -32,7 +32,7 @@ scriptDir="./script"
 currentDir=`pwd`
 
 cd $scriptDir
-c++ -o $iscpp17_exe -std=c++1z $iscpp17_src
+${CXX:-c++} -o $iscpp17_exe -std=c++1z $iscpp17_src
 if [ $? -eq 0 ]; then
     iscpp17=`$iscpp17_exe`
     rm $iscpp17_exe
@@ -72,6 +72,6 @@ fi
 # cf: https://docs.npmjs.com/misc/scripts
 
 cd $currentDir
-node-gyp rebuild
+node-gyp -v rebuild
 
 exit 0
