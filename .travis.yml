@@ -30,8 +30,10 @@ os: "linux"
 dist: bionic
 compiler:
   - gcc
+  - clang
 language: node_js
 "node_js":
+  - "11"
   - "14"
 script: "npm run travis"
 before_script:
