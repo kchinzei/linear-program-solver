@@ -82,13 +82,13 @@ If _variableName_ is not in _vars_, it returns NaN.
 
 #### Error _'Compiler needs to support C++-17 or newer. Abort'_
 
-This is likely your C++ compiler (c++ by default) does not support C++-17. You can specify other compiler by setting CXX environment parameter.
+Your C++ compiler (c++ by default) does not support C++-17. You can specify other compiler by setting CXX environment parameter.
 
 ```Shell
 > export CXX=/your/new/c++/Compiler
 ```
 
-#### Compile error at Release/.../simplex_wrapper.o
+#### Compile error _‘BigInt’ is not a member of ‘Napi’_
 
 Some Linux has a pretty old node-gyp that came with apt install. You can install the latest node-gyp by
 

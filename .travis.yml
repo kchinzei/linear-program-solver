@@ -33,7 +33,7 @@ compiler:
   - clang
 language: node_js
 "node_js":
-  - "11"
+  - "13"
   - "14"
 script: "npm run travis"
 before_script:
