@@ -4,7 +4,7 @@
   "description": "Wrapper package for simplex solver",
   "main": "build/Release/linear-program-solver.node",
   "scripts": {
-    "prebuild": "lint",
+    "preinstall": "sh script/preinstall.sh",
     "build": "tsc",
     "fix": "run-p fix:*",
     "fix:eslint": "npm run lint:eslint -- --fix",
@@ -14,8 +14,7 @@
     "lint:prettier": "prettier -l \"**/*.{json,md,yml}\"",
     "lint:type": "tsc --noEmit",
     "test": "run-s lint test:*",
-    "test:unit": "jest",
-    "tslint": "tslint 'src/**/*.ts'"
+    "test:unit": "jest"
   },
   "keywords": [
     "linear programming",
@@ -54,6 +53,6 @@
     "type": "git",
     "url": "git+https://github.com/kchinzei/linear-program-solver.git"
   },
-  "types": "./declarations/linear-program-solver.d.ts",
+  "types": "./declarations/index.d.ts",
   "gypfile": true
 }
