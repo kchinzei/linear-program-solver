@@ -30,8 +30,6 @@ os: "linux"
 dist: "bionic"
 arch:
   - "arm64"
-compiler:
-  - gcc
 language: node_js
 "node_js":
   - "14"
