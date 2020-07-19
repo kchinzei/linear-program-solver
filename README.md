@@ -12,9 +12,9 @@ JS/TS wrapper for [simplex](https://github.com/jeronimonunes/simplex) linear pro
 - C++ compiler with C++-17 support.
 - [linear-program-parser 1.0.11 or newer](https://www.npmjs.com/package/linear-program-parser).
 - [jeronimonunes/simplex](https://github.com/jeronimonunes/simplex).
-- [bigint](https://github.com/jeronimonunes/bigint).
+- [jeronimonunes/bigint](https://github.com/jeronimonunes/bigint).
 - Node 11.15.0 or newer.
-- Currently tested on macOS and Linux including Raspberry Pi.
+- Currently tested on macOS and Linux including Raspberry Pi. Windows needs manual build.
 
 ## Description
 
