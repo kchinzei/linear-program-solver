@@ -32,6 +32,8 @@ os: "linux"
   dist: "xenial"
   arch:
     - "arm64"
+  env:
+    - CXX=clang
   language: node_js
   "node_js":
     - "14"
