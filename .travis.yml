@@ -25,7 +25,6 @@
 #   Kiyo Chinzei
 #   https://github.com/kchinzei/linear-program-solver
 #
-
 os: "linux"
   # Default tool available in Travis CI's Xenial is gcc 5.4.0. We need
   # 7 or more for structured binding support. It's in clang 7.
@@ -37,7 +36,6 @@ os: "linux"
   language: node_js
   "node_js":
     - "14"
-    
 script: "npm run travis"
 before_script:
     - npm install typescript
