@@ -15,7 +15,7 @@
     "lint:type": "tsc --noEmit",
     "test": "run-s lint test:*",
     "test:unit": "jest",
-    "travis": "run-s preinstall build test jest:coveralls",
+    "travis": "run-s preinstall build lint:eslint jest:coveralls",
     "jest:coveralls": "jest --coverage && coveralls < coverage/lcov.info"
   },
   "keywords": [
