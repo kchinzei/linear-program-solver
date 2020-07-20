@@ -27,16 +27,14 @@
 #
 ---
 language: node_js
+node_js:
   - 13
   - 14
-os: linux
-dist: bionic
-compiler: g++
-
-# jobs:
-#  include:
-#    - os: linux
-#      dist: bionic
+jobs:
+  include:
+    - os: linux
+      dist: bionic
+      compiler: gcc
 #    - os: linux
 #      dist: bionic
 #      compiler: clang
