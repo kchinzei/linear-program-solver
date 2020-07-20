@@ -31,13 +31,12 @@ language: node_js
   - 14
 jobs:
   include:
-#    - os: linux
-#      dist: bionic
-#      compiler: gcc
     - os: linux
       dist: bionic
-      compiler: clang
-      language: node_js
+      compiler: gcc
+#    - os: linux
+#      dist: bionic
+#      compiler: clang
 #    - os: osx
 #      dist: bionic
 #      compiler: clang
