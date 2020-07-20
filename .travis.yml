@@ -26,7 +26,6 @@
 #   https://github.com/kchinzei/linear-program-solver
 #
 ---
-language: node_js
 node_js:
   - 13
   - 14
@@ -35,6 +34,7 @@ jobs:
     - os: linux
       dist: bionic
       compiler: gcc
+      language: node_js
 #    - os: linux
 #      dist: bionic
 #      compiler: clang
