@@ -32,8 +32,8 @@ jobs:
       dist: bionic
       compiler: gcc
       language: node_js
-      - "13"
-      - "14"
+        - "13"
+        - "14"
 #    - os: linux
 #      dist: bionic
 #      compiler: clang
