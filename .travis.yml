@@ -27,8 +27,8 @@
 #
 ---
 language: node_js
-  - 13
-  - 14
+  - "13"
+  - "14"
 jobs:
   include:
     - os: linux
