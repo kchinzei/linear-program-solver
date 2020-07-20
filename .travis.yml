@@ -26,15 +26,22 @@
 #   https://github.com/kchinzei/linear-program-solver
 #
 ---
-os: "linux"
-dist: bionic
-compiler:
-  - gcc
-  - clang
 language: node_js
-"node_js":
-  - "13"
-  - "14"
+  - 13
+  - 14
+jobs:
+  include:
+#    - os: linux
+#      dist: bionic
+#      compiler: gcc
+    - os: linux
+      dist: bionic
+      compiler: clang
+      language: node_js
+#    - os: osx
+#      dist: bionic
+#      compiler: clang
+
 script: "npm run travis"
 before_script:
   - npm install typescript

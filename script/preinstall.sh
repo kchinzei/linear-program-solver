@@ -25,14 +25,26 @@
 github_simplex="https://github.com/jeronimonunes/simplex"
 github_bigint="https://github.com/jeronimonunes/bigint"
 
+# Analyze arguments
+verbose=""
+if [ $# -eq 1 -a "$1" == "-v" ]; then
+    verbose=$1
+fi
+
 # Test C++ compiler. We need C++-17 or newer.
 iscpp17_src="./iscpp17.cc"
 iscpp17_exe="./iscpp17.exe"
 scriptDir="./script"
 currentDir=`pwd`
 
+echo ${CXX:=c++}
+
+if [ "$verbose" != "" ]; then
+    ${CXX} --version
+fi
+
 cd $scriptDir
-${CXX:-c++} -o $iscpp17_exe -std=c++1z $iscpp17_src
+${CXX} -o $iscpp17_exe -std=c++1z $iscpp17_src
 if [ $? -eq 0 ]; then
     iscpp17=`$iscpp17_exe`
     rm $iscpp17_exe
@@ -72,6 +84,6 @@ fi
 # cf: https://docs.npmjs.com/misc/scripts
 
 cd $currentDir
-node-gyp -v rebuild
+node-gyp $verbose rebuild
 
 exit 0
