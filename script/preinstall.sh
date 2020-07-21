@@ -83,6 +83,10 @@ fi
 # When using own preinstall script, we must take care of running node-gyp.
 # cf: https://docs.npmjs.com/misc/scripts
 
+which node-gyp
+node-gyp --version
+`which node-gpy` --version
+
 cd $currentDir
 node-gyp $verbose rebuild
 
