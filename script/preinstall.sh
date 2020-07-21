@@ -91,11 +91,12 @@ if ! [ -f "$node_gyp" ]; then
     exit 1
 fi
 
+cd $currentDir
+
 $node_gyp --version
 $node_gyp configure
 # $node_gyp install
 
-cd $currentDir
 $node_gyp $verbose rebuild
 
 exit 0
