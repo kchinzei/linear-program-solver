@@ -13,7 +13,7 @@ JS/TS wrapper for [simplex](https://github.com/jeronimonunes/simplex) linear pro
 - [linear-program-parser 1.0.11 or newer](https://www.npmjs.com/package/linear-program-parser).
 - [jeronimonunes/simplex](https://github.com/jeronimonunes/simplex).
 - [jeronimonunes/bigint](https://github.com/jeronimonunes/bigint).
-- Node 11.15.0 or newer.
+- Node 12 or newer. (See [Trouble shooting](#trouble-shooting))
 - Currently tested on macOS and Linux including Raspberry Pi. Windows needs manual build.
 
 ## Description
@@ -90,11 +90,16 @@ Your C++ compiler (c++ by default) does not support C++-17. You can specify othe
 
 #### Compile error _‘BigInt’ is not a member of ‘Napi’_
 
-Some Linux has a pretty old node-gyp that came with apt install. You can install the latest node-gyp by
+Two possible reasons.
+
+- node-gyp you are running is old. Some Linux has a pretty old node-gyp that came with apt install. You can install the latest node-gyp by
 
 ```Shell
 > npm i -g node-gyp
 ```
+
+- N-API that this program depends on requires N-API version 5 or newer.
+  Node before ver.12 had version 4 or older.
 
 #### Failed to install to Windows
 

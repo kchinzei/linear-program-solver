@@ -28,25 +28,27 @@
 ---
 language: node_js
 node_js:
-  - 11
+  - 12
+  - 13
+  - 14
 os:
   - linux
-#  - osx
+  - osx
 dist: bionic
 env:
   - CXX: g++
-#  - CXX: clang++
+  - CXX: clang++
 
 script: "npm run travis"
 before_script:
   - npm install typescript
   - npm install -g node-gyp
   - npm install -D @types/node
-#  - npm install -D eslint
-#  - npm install -D @typescript-eslint/eslint-plugin @typescript-eslint/parser
+  - npm install -D eslint
+  - npm install -D @typescript-eslint/eslint-plugin @typescript-eslint/parser
   - npm install -D npm-run-all
-#  - npm install -D eslint-plugin-prefer-arrow
-#  - npm install -D coveralls
+  - npm install -D eslint-plugin-prefer-arrow
+  - npm install -D coveralls
   - npm install bindings
   - npm install node-addon-api
   - npm install linear-program-parser

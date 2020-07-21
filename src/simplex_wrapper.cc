@@ -56,9 +56,13 @@ Fraction Obj2Fraction(Napi::Value val) {
     Napi::Object obj = val.As<Napi::Object>();
     bool lossless = false;
 
+    // Note: Napi::BigInt is available in N-API ver 5 or above.
+    // cf: node_modules/node-addon-api/napi.h
+    // cf: https://nodejs.org/api/n-api.html#n_api_n_api_version_matrix
     int64_t n = obj.Get("numerator").As<Napi::BigInt>().Int64Value(&lossless);
     int64_t d = obj.Get("denominator").As<Napi::BigInt>().Int64Value(&lossless);
 
+    // FIXME: coeration from int64_t to long is not perservative. But BigInteger does not accept long long.
     BigInteger N = BigInteger((long)n);
     BigInteger D = BigInteger((long)d);
     Fraction f = Fraction(N, D);

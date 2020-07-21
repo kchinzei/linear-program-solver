@@ -27,7 +27,7 @@ github_bigint="https://github.com/jeronimonunes/bigint"
 
 # Analyze arguments
 verbose=""
-if [ $# -eq 1 -a "$1" == "-v" ]; then
+if [ $# -eq 1 -a "-v" == "$1" ]; then
     verbose=$1
 fi
 
@@ -83,7 +83,7 @@ fi
 # When using own preinstall script, we must take care of running node-gyp.
 # cf: https://docs.npmjs.com/misc/scripts
 
-# Find our node-gyp
+# Find node-gyp we installed..
 node_gyp=`npm ls -g node-gyp -ps |  head -n 1`/bin/node-gyp.js
 
 if ! [ -f "$node_gyp" ]; then
@@ -93,9 +93,9 @@ fi
 
 cd $currentDir
 
-$node_gyp --version
-$node_gyp $verbose configure
-$node_gyp $verbose install
+if [ "$verbose" != "" ]; then
+    $node_gyp --version
+fi
 
 $node_gyp $verbose rebuild
 
