@@ -33,7 +33,7 @@ ehthumbs.db
 ehthumbs_vista.db
 *.stackdump
 [Dd]esktop.ini
-$RECYCLE.BIN/
+$RECYCLE.BIN
 *.cab
 *.msi
 *.msm
@@ -61,11 +61,11 @@ $RECYCLE.BIN/
 .prettierignore
 .travis.yml
 .yarn-integrity
-__tests__/
+__tests__
 bower_components
-coverage/
+coverage
 jest.config.js
-jspm_packages/
+jspm_packages
 lib-cov
 logs
 node_modules/
@@ -73,8 +73,8 @@ npm-debug.log*
 package-lock.json
 pids
 prettier.config.js
-typings/
+typings
 yarn-debug.log*
 yarn-error.log*
-simplex/
-build/
+simplex
+build
