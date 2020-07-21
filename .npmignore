@@ -68,7 +68,7 @@ jest.config.js
 jspm_packages
 lib-cov
 logs
-node_modules/
+node_modules
 npm-debug.log*
 package-lock.json
 pids

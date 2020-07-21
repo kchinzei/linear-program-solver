@@ -38,6 +38,10 @@ dist: bionic
 env:
   - CXX: g++
   - CXX: clang++
+jobs:
+  exclude:
+    - os: osx
+      env: CXX=g++ # It's actually clang in binary.
 
 script: "npm run travis"
 before_script:
