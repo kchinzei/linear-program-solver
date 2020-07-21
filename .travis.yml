@@ -40,7 +40,7 @@ env:
 script: "npm run travis"
 before_script:
   - npm install typescript
-  - npm install node-gyp@7.0.0
+  - npm install -g node-gyp@7.0.0
   - npm install -D @types/node
 #  - npm install -D eslint
 #  - npm install -D @typescript-eslint/eslint-plugin @typescript-eslint/parser
