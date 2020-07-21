@@ -83,11 +83,17 @@ fi
 # When using own preinstall script, we must take care of running node-gyp.
 # cf: https://docs.npmjs.com/misc/scripts
 
-which node-gyp
-node-gyp --version
-`which node-gyp` --version
+# Find our node-gyp
+node_gyp=`npm ls -g node-gyp -ps |  head -n 1`/bin/node-gyp.js
+
+if ! [ -f "$node_gyp" ]; then
+    echo "Cannot locate installed node-gyp execulable as expected"
+    exit 1
+fi
+
+$node_gyp --version
 
 cd $currentDir
-node-gyp $verbose rebuild
+$node_gyp $verbose rebuild
 
 exit 0
