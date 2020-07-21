@@ -1,8 +1,8 @@
 {
   "name": "linear-program-solver",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Wrapper package for simplex solver",
-  "main": "build/Release/linear-program-solver.node",
+  "main": "dist/index.js",
   "scripts": {
     "preinstall": "sh script/preinstall.sh",
     "build": "tsc",

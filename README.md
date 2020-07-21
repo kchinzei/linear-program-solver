@@ -33,7 +33,7 @@ Linear program solver can accept the output of [linear-program-parser](https://w
 import { parse, Fpi } from 'linear-program-parser';
 import { simplex, findSolution } from 'linear-program-solver';
 
-const linearProgram = parse(`max(-3a -4b +5c -5d)
+const linearProgram = parse('max(-3a -4b +5c -5d)
     st:
         +1a +1b +0c +0d <= +5;
         -1a +0b -5c +5d <= -10;
@@ -43,7 +43,7 @@ const linearProgram = parse(`max(-3a -4b +5c -5d)
         b >= 0;
         c >= 0;
         d >= 0;
-`);
+');
 
 const fpi = linearProgram.toFPI();
 const { result, solution, vars } = simplex(fpi.toMatrix());
