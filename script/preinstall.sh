@@ -92,6 +92,8 @@ if ! [ -f "$node_gyp" ]; then
 fi
 
 $node_gyp --version
+$node_gyp configure
+# $node_gyp install
 
 cd $currentDir
 $node_gyp $verbose rebuild
