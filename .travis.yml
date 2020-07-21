@@ -28,8 +28,8 @@
 ---
 language: node_js
 node_js:
-  - 13
-  - 14
+  - 11
+  - 12
 os:
   - linux
   - osx
