@@ -94,7 +94,8 @@ fi
 cd $currentDir
 
 $node_gyp --version
-$node_gyp install
+$node_gyp $verbose configure
+$node_gyp $verbose install
 
 $node_gyp $verbose rebuild
 
