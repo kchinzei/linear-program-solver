@@ -85,7 +85,7 @@ fi
 
 which node-gyp
 node-gyp --version
-`which node-gpy` --version
+`which node-gyp` --version
 
 cd $currentDir
 node-gyp $verbose rebuild
