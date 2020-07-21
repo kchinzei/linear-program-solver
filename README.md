@@ -9,6 +9,7 @@ JS/TS wrapper for [simplex](https://github.com/jeronimonunes/simplex) linear pro
 
 ## Requirements
 
+- Linux or macOS (Windows also by manual installation, see [Trouble shooting](#trouble-shooting))
 - C++ compiler with C++-17 support.
 - [linear-program-parser 1.0.11 or newer](https://www.npmjs.com/package/linear-program-parser).
 - [jeronimonunes/simplex](https://github.com/jeronimonunes/simplex).

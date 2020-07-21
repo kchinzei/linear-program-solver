@@ -27,7 +27,7 @@ github_bigint="https://github.com/jeronimonunes/bigint"
 
 # Analyze arguments
 verbose=""
-if [ $# -eq 1 -a "-v" == "$1" ]; then
+if [ $# -eq 1 -a s"$1" == "s-v" ]; then
     verbose=$1
 fi
 
@@ -39,7 +39,7 @@ currentDir=`pwd`
 
 echo ${CXX:=c++}
 
-if [ "$verbose" != "" ]; then
+if [ s"$verbose" == "s-v" ]; then
     ${CXX} --version
 fi
 
@@ -93,7 +93,7 @@ fi
 
 cd $currentDir
 
-if [ "$verbose" != "" ]; then
+if [ s"$verbose" == "s-v" ]; then
     $node_gyp --version
 fi
 
