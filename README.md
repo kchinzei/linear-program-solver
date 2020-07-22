@@ -10,9 +10,9 @@ JS/TS wrapper for [simplex](https://github.com/jeronimonunes/simplex) linear pro
 ## Requirements
 
 - Linux or macOS (Windows also by manual installation, see [Trouble shooting](#trouble-shooting))
-- C++ compiler with C++-17 support.
-- Node 10 or newer. (To be exact, N-API version 6 or newer)
-- [linear-program-parser 1.0.11 or newer](https://www.npmjs.com/package/linear-program-parser) (npm module).
+- C++ compiler with C++-17 or newer support.
+- Node 10 or newer except 11. (To be exact, N-API version 6 or newer)
+- [linear-program-parser](https://www.npmjs.com/package/linear-program-parser) 1.0.11 or newer (npm module).
 - [jeronimonunes/simplex](https://github.com/jeronimonunes/simplex) (C++ code).
 - [jeronimonunes/bigint](https://github.com/jeronimonunes/bigint) (C++ code).
 
@@ -119,7 +119,7 @@ Three possible reasons.
 1. The given problem is grammatically wrong.
 1. Bugs of the solver or wrapper.
 
-During installation of this module, it compiles C++ code on your computer. Compiling this module requires N-API (node API) version 6 or greater, that comes with BigInt support. Node 10.20.0 has it. Node 11.15.0 seems not. See [the version matrix]().
+During installation of this module, it compiles C++ code on your computer. Compiling this module requires N-API (node API) version 6 or greater, that comes with BigInt support. Node 10.20.0 has it. Node 11.15.0 seems not. See [the version matrix](https://nodejs.org/api/n-api.html#n_api_n_api_version_matrix).
 
 In some cases, node-gyp you are running is old. Some Linux has a pretty old node-gyp that came with apt install. You can install the latest node-gyp by
 

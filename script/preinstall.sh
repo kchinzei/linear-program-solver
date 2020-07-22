@@ -104,13 +104,13 @@ if [ "$iscpp17" = "C++17" ]; then
         fi
     elif ! [ -f binding.gyp ]; then
         if ! [ -f $binding_real ]; then
-            echo "Cannot find a copy of bingings.gyp. Possibly download error. Abort."
+            echo "Cannot find a copy of binding.gyp. Possibly download error. Abort."
             exit 1
         fi
         need_binding_refresh="yes"
     fi
     if [ "$need_binding_refresh" = "yes" ]; then
-        cp -f $binding_real bingings.gyp
+        cp -f $binding_real binding.gyp
     fi
 else
     # When C++-17 is not available, we don't compile most of them.
@@ -118,10 +118,10 @@ else
     # We overwrite binding.gyp with dummy one to skip compile.
     cd $currentDir
     if ! [ -f $binding_dummy ]; then
-        echo "Cannot find a dummy bingings.gyp. Possibly download error. Abort."
+        echo "Cannot find a dummy binding.gyp. Possibly download error. Abort."
         exit 1
     fi
-    cp -f $binding_dummy bingings.gyp
+    cp -f $binding_dummy binding.gyp
 fi
 
 # When using own preinstall script, we must take care of running node-gyp.

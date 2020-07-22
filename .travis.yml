@@ -28,15 +28,15 @@
 ---
 language: node_js
 node_js:
-  - 10  # NAPI_VERSION > 5
+#  - 10  # NAPI_VERSION > 5
   - 11  # NAPI_VERSION <= 5
 os:
   - linux
-  - osx
+#  - osx
 dist: bionic
 env:
   - CXX: g++
-  - CXX: clang++
+#  - CXX: clang++
 jobs:
   include:
     - dist: xenial  # g++ 5.4.0
