@@ -46,17 +46,29 @@ if [ "$verbose" = "-v" ]; then
 fi
 
 cd $scriptDir
+
+if ! [ -f $iscpp17_src ]; then
+    echo "${iscpp17_src} missing"
+    exit 1
+fi
+
 ${CXX} -o $iscpp17_exe -std=c++1z $iscpp17_src
 if [ $? -eq 0 ]; then
     iscpp17=`$iscpp17_exe`
     rm $iscpp17_exe
     echo $iscpp17
     if [ "$iscpp17" != "C++17" ]; then
-        echo "Compiler does not support C++-17 or newer."
+        echo "Compiler supporting C++-17 or newer required."
         echo "We continue the build, but the binary will be a dummy without solver."
     fi
 else
     echo "Compiler check failed. We continue, but it's not good sign."
+fi
+
+# TODO: We should also check if node supports N-API 6 or newer.
+
+if [ "$verbose" = "-v" ]; then
+    node --version
 fi
 
 # TODO: Use gcc_raspbian if it's Raspi.

@@ -14,8 +14,12 @@ JS/TS wrapper for [simplex](https://github.com/jeronimonunes/simplex) linear pro
 - [linear-program-parser 1.0.11 or newer](https://www.npmjs.com/package/linear-program-parser).
 - [jeronimonunes/simplex](https://github.com/jeronimonunes/simplex).
 - [jeronimonunes/bigint](https://github.com/jeronimonunes/bigint).
-- Node 12 or newer. (See [Trouble shooting](#trouble-shooting))
-- Currently tested on macOS and Linux including Raspberry Pi. Windows needs manual build.
+- Node 10 or newer. ( To be exact, N-API version 6 or newer)
+- Linux or macOS (Windows needs manual build)
+
+Note 1: This module needs N-API (node API) version 6 or greater, that comes with BigInt support. Node 10.20.0 has it. Node 11.15.0 seems not.  
+Note 2: This module will be successfully built even these conditions do not meet. When so, **simplex() always returns 'inviavel' (infeasible) without actually solving the problem.** To check if simplex() works, use simplexIsOK().   
+Note 3: Currently tested on macOS and Linux including Raspberry Pi.
 
 ## Description
 
@@ -31,7 +35,8 @@ Linear program solver can accept the output of [linear-program-parser](https://w
 
 ```TypeScript
 import { parse, Fpi } from 'linear-program-parser';
-import { simplex, findSolution } from 'linear-program-solver';
+import { simplex, findSolution, simplexIsOK  } from 'linear-program-solver';
+import { SimplexTableau, SimplexSolution } from 'linear-program-solver';
 
 const linearProgram = parse('max(-3a -4b +5c -5d)
     st:
@@ -46,8 +51,8 @@ const linearProgram = parse('max(-3a -4b +5c -5d)
 ');
 
 const fpi = linearProgram.toFPI();
-const { result, solution, vars } = simplex(fpi.toMatrix());
-const a: number = findSolution('a', solution, vars);
+const val: SimplexSolution = simplex(fpi.toMatrix());
+const a: number = findSolution('a', val.solution, val.vars);
 ...
 ```
 

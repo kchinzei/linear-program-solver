@@ -54,17 +54,18 @@ bool isFraction(Napi::Value val) {
 
 Fraction Obj2Fraction(Napi::Value val) {
     Napi::Object obj = val.As<Napi::Object>();
-    bool lossless = false;
 
     // Note: Napi::BigInt is available in N-API ver 5 or above.
     // cf: node_modules/node-addon-api/napi.h
     // cf: https://nodejs.org/api/n-api.html#n_api_n_api_version_matrix
 #if NAPI_VERSION > 5
+    bool lossless = false;
     int64_t n = obj.Get("numerator").As<Napi::BigInt>().Int64Value(&lossless);
     int64_t d = obj.Get("denominator").As<Napi::BigInt>().Int64Value(&lossless);
 #else
-    int64_t n = obj.Get("numerator").As<Napi::Number>().Int64Value();
-    int64_t d = obj.Get("denominator").As<Napi::Number>().Int64Value();
+    // dummy code
+    int64_t n = 0;
+    int64_t d = 0;
 #endif  // NAPI_VERSION > 5
 
     // FIXME: coeration from int64_t to long is not perservative. But BigInteger does not accept long long.
@@ -98,7 +99,7 @@ Napi::Value Solve(const Napi::CallbackInfo& info) {
   // When no argument, it returns if it actually works.
   if (info.Length() == 0) {
       bool ok;
-#if __cplusplus >= 201703L
+#if __cplusplus >= 201703L && NAPI_VERSION > 5
       ok = true;
 #else
       ok = false;
@@ -114,7 +115,7 @@ Napi::Value Solve(const Napi::CallbackInfo& info) {
       return Usage(env, "Wrong argument.");
   }
 
-#if __cplusplus >= 201703L
+#if __cplusplus >= 201703L && NAPI_VERSION > 5
 
   Napi::Object obj = info[0].As<Napi::Object>();
   if (!obj.Has("a") || !obj.Has("b") || !obj.Has("c") || !obj.Has("vars"))
@@ -240,8 +241,8 @@ Napi::Value Solve(const Napi::CallbackInfo& info) {
 
   Napi::Object resultObj = Napi::Object::New(env);
   resultObj.Set("result", Napi::String::New(env, "inviavel"));
-  resultObj.Set("solution", Napi::Array::Array());
-  resultObj.Set("vars", Napi::Array::Array());
+  resultObj.Set("solution", Napi::Array());
+  resultObj.Set("vars", Napi::Array());
 
 #endif // __cplusplus >= 201703L
 
