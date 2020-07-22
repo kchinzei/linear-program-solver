@@ -53,12 +53,12 @@ bool isFraction(Napi::Value val) {
 }
 
 Fraction Obj2Fraction(Napi::Value val) {
-    Napi::Object obj = val.As<Napi::Object>();
-
     // Note: Napi::BigInt is available in N-API ver 5 or above.
     // cf: node_modules/node-addon-api/napi.h
     // cf: https://nodejs.org/api/n-api.html#n_api_n_api_version_matrix
 #if NAPI_VERSION > 5
+    Napi::Object obj = val.As<Napi::Object>();
+
     bool lossless = false;
     int64_t n = obj.Get("numerator").As<Napi::BigInt>().Int64Value(&lossless);
     int64_t d = obj.Get("denominator").As<Napi::BigInt>().Int64Value(&lossless);
@@ -241,8 +241,8 @@ Napi::Value Solve(const Napi::CallbackInfo& info) {
 
   Napi::Object resultObj = Napi::Object::New(env);
   resultObj.Set("result", Napi::String::New(env, "inviavel"));
-  resultObj.Set("solution", Napi::Array());
-  resultObj.Set("vars", Napi::Array());
+  resultObj.Set("solution", Napi::Array::New(env, 0));
+  resultObj.Set("vars", vars);
 
 #endif // __cplusplus >= 201703L
 

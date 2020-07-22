@@ -74,7 +74,7 @@ fi
 # TODO: Use gcc_raspbian if it's Raspi.
 
 # Get simplex code
-if [ "$iscpp17" == "C++17" ]; then
+if [ "$iscpp17" = "C++17" ]; then
     cd $currentDir
 
     if ! [ -d ./simplex -a -f ./simplex/src/Base.hh ]; then
@@ -109,12 +109,13 @@ if [ "$iscpp17" == "C++17" ]; then
         fi
         need_binding_refresh="yes"
     fi
-    if [ need_binding_refresh = "yes" ]; then
+    if [ "$need_binding_refresh" = "yes" ]; then
         cp -f $binding_real bingings.gyp
     fi
 else
     # When C++-17 is not available, we don't compile most of them.
-    # We overwrite binding.gyp with dummy one.
+    # We don't download those C++ code.
+    # We overwrite binding.gyp with dummy one to skip compile.
     cd $currentDir
     if ! [ -f $binding_dummy ]; then
         echo "Cannot find a dummy bingings.gyp. Possibly download error. Abort."
