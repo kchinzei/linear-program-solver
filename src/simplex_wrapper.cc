@@ -59,8 +59,13 @@ Fraction Obj2Fraction(Napi::Value val) {
     // Note: Napi::BigInt is available in N-API ver 5 or above.
     // cf: node_modules/node-addon-api/napi.h
     // cf: https://nodejs.org/api/n-api.html#n_api_n_api_version_matrix
+#if NAPI_VERSION > 5
     int64_t n = obj.Get("numerator").As<Napi::BigInt>().Int64Value(&lossless);
     int64_t d = obj.Get("denominator").As<Napi::BigInt>().Int64Value(&lossless);
+#else
+    int64_t n = obj.Get("numerator").As<Napi::Number>().Int64Value(&lossless);
+    int64_t d = obj.Get("denominator").As<Napi::Number>().Int64Value(&lossless);
+#endif  // NAPI_VERSION > 5
 
     // FIXME: coeration from int64_t to long is not perservative. But BigInteger does not accept long long.
     BigInteger N = BigInteger((long)n);
@@ -81,14 +86,35 @@ Napi::Value Usage(Napi::Env env, string msg) {
 /*
   Acknowledgement:
   Part of code translated from Main.cc, Io,cc in https://github.com/jeronimonunes/simplex
+*/
+/*
+  Because some part of simplex source is written by C++-17, some old environment won't compile.
+  Since typescript does not allow conditional import, we provide a binary that works as a dummy
+  even when compiler cannot do.
  */
 Napi::Value Solve(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
 
-  if (info.Length() != 1)
+  // When no argument, it returns if it actually works.
+  if (info.Length() == 0) {
+      bool ok;
+#if __cplusplus >= 201703L
+      ok = true;
+#else
+      ok = false;
+#endif
+      Napi::Boolean resultObj = Napi::Boolean::New(env, ok);
+      return resultObj;
+  }
+
+  // Main work.
+  if (info.Length() > 1) {
       return Usage(env, "Wrong number of arguments: expecting 1");
   if (!info[0].IsObject())
       return Usage(env, "Wrong argument.");
+  }
+
+#if __cplusplus >= 201703L
 
   Napi::Object obj = info[0].As<Napi::Object>();
   if (!obj.Has("a") || !obj.Has("b") || !obj.Has("c") || !obj.Has("vars"))
@@ -209,7 +235,16 @@ Napi::Value Solve(const Napi::CallbackInfo& info) {
   resultObj.Set("result", Napi::String::New(env, rStr));
   resultObj.Set("solution", solution);
   resultObj.Set("vars", vars);
-  
+
+#else // __cplusplus >= 201703L
+
+  Napi::Object resultObj = Napi::Object::New(env);
+  resultObj.Set("result", Napi::String::New(env, "inviavel"));
+  resultObj.Set("solution", Napi::Array::Array());
+  resultObj.Set("vars", Napi::Array::Array());
+
+#endif // __cplusplus >= 201703L
+
   return resultObj;
 }
 

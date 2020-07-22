@@ -35,8 +35,24 @@ import { Fraction } from 'linear-program-parser';
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-var-requires
 const simplexWrapper = require('bindings')('simplex_wrapper');
 
+export type SimplexTableau<T> = {
+  a: T[][];
+  b: T[];
+  c: T[];
+  vars: string[];
+};
+
+export type SimplexSolution = {
+  result: ( 'otima' | 'ilimitada' | 'inviavel' );
+  solution: number[];
+  vars: string[];
+};
+
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-export const simplex: (arg: { a: Fraction[][]; b: Fraction[]; c: Fraction[]; vars: string[] }) => { result: ( 'otima' | 'ilimitada' | 'inviavel' ); solution: number[]; vars: string[] } = simplexWrapper.simplex_wrapper;
+export const simplex: (arg: SimplexTableau<Fraction>) => SimplexSolution = simplexWrapper.simplex_wrapper;
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+export const simplexIsOK: () => boolean = simplexWrapper.simplex_wrapper;
 
 /*
   Find solution in vars by variableName.

@@ -31,7 +31,7 @@ THE SOFTWARE.
 */
 
 import { parse, Fpi, Fraction } from 'linear-program-parser';
-import { simplex, findSolution } from '../src/index';
+import { simplex, findSolution, SimplexTableau, SimplexSolution, simplexIsOK } from '../src/index';
 
 let i=0;
 
@@ -93,18 +93,22 @@ describe.each([
         d >= 0; ',
    'otima', 0, 0, 10, 0, 1/20, 2/5, 0, 0],
 
-])('', (problem, res, a, b, c, d, f_1, f_2, f_3, f_4) => {
+])('', (problem, resultTxt, a, b, c, d, f_1, f_2, f_3, f_4) => {
   test(`${i++}. Examine answer given by https://jeronimonunes.github.io/simplex-web`, () => {
     const linearProgram = parse(problem);
     const fpi: Fpi = linearProgram.toFPI();
-    const tableau: {a: Fraction[][]; b: Fraction[]; c: Fraction[]; vars: string[]} = fpi.toMatrix();
-    const { result, solution, vars } = simplex(tableau);
+    const tableau: SimplexTableau<Fraction> = fpi.toMatrix();
+    const res: SimplexSolution = simplex(tableau);
 
-    expect(res).toBe(result);
-    expect(findSolution('a', solution, vars)).toBeCloseTo(a);
-    expect(findSolution('b', solution, vars)).toBeCloseTo(b);
-    expect(findSolution('c', solution, vars)).toBeCloseTo(c);
-    expect(findSolution('d', solution, vars)).toBeCloseTo(d);
+    if (simplexIsOK()) {
+      expect(res.result).toBe(resultTxt);
+      expect(findSolution('a', res.solution, res.vars)).toBeCloseTo(a);
+      expect(findSolution('b', res.solution, res.vars)).toBeCloseTo(b);
+      expect(findSolution('c', res.solution, res.vars)).toBeCloseTo(c);
+      expect(findSolution('d', res.solution, res.vars)).toBeCloseTo(d);
+    } else {
+      expect(res.result).toBe('inviavel');
+    }
   });
 });
 
@@ -128,17 +132,21 @@ describe.each([
         d >= 0; ',
      'ilimitada', 0, 0, 100, 0, 5, 490, 0, 90]
 
-])('', (problem, res, a, b, c, d, f_1, f_2, f_3, f_4) => {
+])('', (problem, resultTxt, a, b, c, d, f_1, f_2, f_3, f_4) => {
   test(`${i++}. Examine answer given by https://jeronimonunes.github.io/simplex-web`, () => {
     const linearProgram = parse(problem);
     const fpi: Fpi = linearProgram.toFPI();
-    const { result, solution, vars } = simplex(fpi.toMatrix());
+    const res: SimplexSolution = simplex(fpi.toMatrix());
 
-    expect(res).toBe(result);
-    expect(findSolution('a', solution, vars)).toBeCloseTo(a);
-    expect(findSolution('b', solution, vars)).toBeCloseTo(b);
-    expect(findSolution('c', solution, vars)).toBeCloseTo(c);
-    expect(findSolution('d', solution, vars)).toBeCloseTo(d);
+    if (simplexIsOK()) {
+      expect(res.result).toBe(resultTxt);
+      expect(findSolution('a', res.solution, res.vars)).toBeCloseTo(a);
+      expect(findSolution('b', res.solution, res.vars)).toBeCloseTo(b);
+      expect(findSolution('c', res.solution, res.vars)).toBeCloseTo(c);
+      expect(findSolution('d', res.solution, res.vars)).toBeCloseTo(d);
+    } else {
+      expect(res.result).toBe('inviavel');
+    }
   });
 });
 
@@ -163,13 +171,12 @@ describe.each([
         d >= 0; ',
    'inviavel'],
 
-])('', (problem, res) => {
+])('', (problem, resultTxt) => {
   test(`${i++}. Examine answer given by https://jeronimonunes.github.io/simplex-web`, () => {
     const linearProgram = parse(problem);
-    // @ts-ignore: TS6133
-    const { result, solution, vars } = simplex(linearProgram.toFPI().toMatrix());
+    const res: SimplexSolution = simplex(linearProgram.toFPI().toMatrix());
 
-    expect(res).toBe(result);
+    expect(res.result).toBe(resultTxt);
   });
 });
 
@@ -207,11 +214,15 @@ describe.each([
   test(`${i++}. Examine answer given by https://jeronimonunes.github.io/simplex-web`, () => {
     const { result, solution, vars } = simplex(parse(problem).toFPI().toMatrix());
 
-    expect(res).toBe(result);
-    expect(findSolution('a', solution, vars)).toBeCloseTo(a);
-    expect(findSolution('b', solution, vars)).toBeCloseTo(b);
-    expect(findSolution('c', solution, vars)).toBeCloseTo(c);
-    expect(findSolution('d', solution, vars)).toBeCloseTo(d);
+    if (simplexIsOK()) {
+      expect(res).toBe(result);
+      expect(findSolution('a', solution, vars)).toBeCloseTo(a);
+      expect(findSolution('b', solution, vars)).toBeCloseTo(b);
+      expect(findSolution('c', solution, vars)).toBeCloseTo(c);
+      expect(findSolution('d', solution, vars)).toBeCloseTo(d);
+    } else {
+      expect(result).toBe('inviavel');
+    }
   });
 });
 
