@@ -99,7 +99,7 @@ Napi::Value Solve(const Napi::CallbackInfo& info) {
   // When no argument, it returns if it actually works.
   if (info.Length() == 0) {
       bool ok;
-#if __cplusplus >= 201703L && NAPI_VERSION > 5
+#if (__cplusplus >= 201703L && NAPI_VERSION > 5)
       ok = true;
 #else
       ok = false;
@@ -115,7 +115,7 @@ Napi::Value Solve(const Napi::CallbackInfo& info) {
       return Usage(env, "Wrong argument.");
   }
 
-#if __cplusplus >= 201703L && NAPI_VERSION > 5
+#if (__cplusplus >= 201703L && NAPI_VERSION > 5)
 
   Napi::Object obj = info[0].As<Napi::Object>();
   if (!obj.Has("a") || !obj.Has("b") || !obj.Has("c") || !obj.Has("vars"))

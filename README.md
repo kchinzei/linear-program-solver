@@ -11,25 +11,20 @@ JS/TS wrapper for [simplex](https://github.com/jeronimonunes/simplex) linear pro
 
 - Linux or macOS (Windows also by manual installation, see [Trouble shooting](#trouble-shooting))
 - C++ compiler with C++-17 support.
-- [linear-program-parser 1.0.11 or newer](https://www.npmjs.com/package/linear-program-parser).
-- [jeronimonunes/simplex](https://github.com/jeronimonunes/simplex).
-- [jeronimonunes/bigint](https://github.com/jeronimonunes/bigint).
-- Node 10 or newer. ( To be exact, N-API version 6 or newer)
-- Linux or macOS (Windows needs manual build)
+- Node 10 or newer. (To be exact, N-API version 6 or newer)
+- [linear-program-parser 1.0.11 or newer](https://www.npmjs.com/package/linear-program-parser) (npm module).
+- [jeronimonunes/simplex](https://github.com/jeronimonunes/simplex) (C++ code).
+- [jeronimonunes/bigint](https://github.com/jeronimonunes/bigint) (C++ code).
 
-Note 1: This module needs N-API (node API) version 6 or greater, that comes with BigInt support. Node 10.20.0 has it. Node 11.15.0 seems not.  
-Note 2: This module will be successfully built even these conditions do not meet. When so, **simplex() always returns 'inviavel' (infeasible) without actually solving the problem.** To check if simplex() works, use simplexIsOK().   
-Note 3: Currently tested on macOS and Linux including Raspberry Pi.
+This module will be built even these conditions do not meet. When so, **simplex() always returns 'inviavel' (infeasible) without actually solving the problem.** To check if simplex() works, use simplexIsOK().
 
 ## Description
 
 Linear-program-solver is a JavaScript / TypeScript wrapper to [simplex C++ engine by jeronimonunes](https://github.com/jeronimonunes/simplex).
-It's intended to be used together with [linear-program-parser](https://www.npmjs.com/package/linear-program-parser) linear program parser.
+It's intended to be used together with [linear-program-parser](https://www.npmjs.com/package/linear-program-parser) written in TypeScript.
 There are several linear program solvers found in npm.
 [Linear-program-parser](https://www.npmjs.com/package/linear-program-parser) is relatively new, written in TypeScript and personally easy to use among them.
-But this is a parser to generate a standard form.
-You need to provide it [simplex](https://github.com/jeronimonunes/simplex) with nicely arranging the standard form to a simplex tableau.
-Linear program solver can accept the output of [linear-program-parser](https://www.npmjs.com/package/linear-program-parser) directly.
+Linear-program-solver can accept the output of [linear-program-parser](https://www.npmjs.com/package/linear-program-parser) directly.
 
 ## Code snippets
 
@@ -55,8 +50,21 @@ const val: SimplexSolution = simplex(fpi.toMatrix());
 const a: number = findSolution('a', val.solution, val.vars);
 ...
 ```
+##### type SimplexTableau<T>
+Generic type for argument of simplex(). <T> is Fraction for Simplex().
 
-##### function simplex(arg: { a: Fraction[][]; b: Fraction[]; c: Fraction[]; vars: string[] }): { result: ( 'otima' | 'ilimitada' | 'inviavel' ); solution: number[]; vars: string[] }
+##### type SimplexSolution
+Type of return object of simplex().
+
+```TypeScript
+extern type SimplexSolution {
+  result: ( 'otima' | 'ilimitada' | 'inviavel' );
+  solution: number[];
+  vars: string[];
+}
+```
+
+##### function simplex(arg: SimplexTableau<Fraction>): SimplexSolution
 
 Solves standard form matrix and vectors provided by Fpi.
 Input arguments are those of the output of Fpi.toMatrix().
@@ -66,6 +74,8 @@ _Result_ is either of 'otima', 'ilimitada', 'inviavel' (in Portuguese), which me
 - _great, a feasible solution found in limited iterations_,
 - _okey, a solution found but iteration didn't converge_,
 - _sorry, it's infeasible to solve_.
+
+When build condition did not meet, it always returns 'inviavel' without solving simplex.
 
 _Solution_ and _vars_ are in pair. _Vars_ is an array of given variables to solve with slack variables automatically introduced by the parser (_f_1_ ... ).
 If a given variable is not constrained nonnegative, it is replaced by two nonnegative variables.
@@ -78,6 +88,11 @@ If variable is replaced to positive and negative parts (e.g., _xp_ and _xn_ such
 findSolution() will find both parts and returns the final solution (in above example, _x_).
 If _variableName_ is not in _vars_, it returns NaN.
 
+##### function simplexIsOK(): boolean
+
+Returns true when build condition meets. Else, return false;
+
+
 ## Install
 
 ```Shell
@@ -86,32 +101,37 @@ If _variableName_ is not in _vars_, it returns NaN.
 
 ### Trouble shooting
 
-#### Error _'Compiler needs to support C++-17 or newer. Abort'_
+#### Warning _'Compiler supporting C++-17 or newer required'_
 
-Your C++ compiler (c++ by default) does not support C++-17. You can specify other compiler by setting CXX environment parameter.
+You may see this message during installation, if your default C++ compiler is so. You can specify other compiler by setting CXX environment parameter.
 
 ```Shell
 > export CXX=/your/new/c++/Compiler
 ```
 
-#### Compile error _‘BigInt’ is not a member of ‘Napi’_
+#### Solution seems wrong.
 
-Two possible reasons.
+Three possible reasons.
 
-- node-gyp you are running is old. Some Linux has a pretty old node-gyp that came with apt install. You can install the latest node-gyp by
+1. When the build conditions do not meet, it returns 'inviavel' regardless the given problem.
+1. The given problem is grammatically wrong.
+1. Bugs of the solver.
+
+During installation of this module, it compiles C++ code on your computer. Compiling this module requires N-API (node API) version 6 or greater, that comes with BigInt support. Node 10.20.0 has it. Node 11.15.0 seems not. See [the version matrix]().
+
+In some cases, node-gyp you are running is old. Some Linux has a pretty old node-gyp that came with apt install. You can install the latest node-gyp by
 
 ```Shell
 > npm i -g node-gyp
 ```
 
-- N-API that this program depends on requires N-API version 5 or newer.
-  Node before ver.12 had version 4 or older.
+To check the grammar of the problem, you may try 
 
 #### Failed to install to Windows
 
 Sorry, install scripts are written for Unix and I am not experienced in Windows development. But the main code would and should work on Windows. If you can volunteer, very welcome.
 
-If you already have C++ compiler, python, node-gyp and installed all dependent modules, you can manually build it from command console,
+If you already have C++ compiler, python, node-gyp and installed every dependent modules, you can manually build it from command console,
 
 ```Shell
 > git clone https://github.com/kchinzei/linear-program-solver.git
