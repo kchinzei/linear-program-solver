@@ -242,7 +242,7 @@ Napi::Value Solve(const Napi::CallbackInfo& info) {
   Napi::Object resultObj = Napi::Object::New(env);
   resultObj.Set("result", Napi::String::New(env, "inviavel"));
   resultObj.Set("solution", Napi::Array::New(env, 0));
-  resultObj.Set("vars", vars);
+  resultObj.Set("vars", Napi::Array::New(env, 0));
 
 #endif // __cplusplus >= 201703L
 
