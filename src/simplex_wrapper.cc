@@ -63,8 +63,8 @@ Fraction Obj2Fraction(Napi::Value val) {
     int64_t n = obj.Get("numerator").As<Napi::BigInt>().Int64Value(&lossless);
     int64_t d = obj.Get("denominator").As<Napi::BigInt>().Int64Value(&lossless);
 #else
-    int64_t n = obj.Get("numerator").As<Napi::Number>().Int64Value(&lossless);
-    int64_t d = obj.Get("denominator").As<Napi::Number>().Int64Value(&lossless);
+    int64_t n = obj.Get("numerator").As<Napi::Number>().Int64Value();
+    int64_t d = obj.Get("denominator").As<Napi::Number>().Int64Value();
 #endif  // NAPI_VERSION > 5
 
     // FIXME: coeration from int64_t to long is not perservative. But BigInteger does not accept long long.
