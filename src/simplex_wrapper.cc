@@ -29,10 +29,13 @@ THE SOFTWARE.
 */
 
 #include <napi.h>
+
+#if __cplusplus >= 201703L
 #include "BigInteger.hh"
 #include "Fraction.hh"
 #include "Simplex.hh"
 #include "Tabloid.hh"
+#endif  // __cplusplus >= 201703L
 
 #define WRAPPER_FUNCTION_NAME "simplex_wrapper"
 #define USAGE ": { a: Fraction[][]; b: Fraction[]; c: Fraction[]; vars: string[] } => \n { result: ( 'otima' | 'ilimitada' | 'inviavel' ), solution: number[], vars: string[] }"
@@ -42,6 +45,7 @@ using namespace std;
 /*
   Helper
  */
+#if __cplusplus >= 201703L
 bool isFraction(Napi::Value val) {
     if (!val.IsObject())
         return false;
@@ -74,6 +78,7 @@ Fraction Obj2Fraction(Napi::Value val) {
     Fraction f = Fraction(N, D);
     return f;
 }
+#endif  // __cplusplus >= 201703L
 
 Napi::Value Usage(Napi::Env env, string msg) {
     Napi::TypeError::New(env, msg + "\nUsage: " + WRAPPER_FUNCTION_NAME + USAGE).ThrowAsJavaScriptException();
