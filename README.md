@@ -11,7 +11,7 @@ JS/TS wrapper for [simplex](https://github.com/jeronimonunes/simplex) linear pro
 
 - Linux or macOS (Windows also by manual installation, see [Trouble shooting](#trouble-shooting))
 - C++ compiler with C++-17 or newer support.
-- Node 10 or newer except 11. (To be exact, N-API version 6 or newer)
+- Node 10.20.0 or newer except 11. (To be exact, N-API version 6 or newer)
 - [linear-program-parser](https://www.npmjs.com/package/linear-program-parser) 1.0.11 or newer (npm module).
 - [jeronimonunes/simplex](https://github.com/jeronimonunes/simplex) (C++ code).
 - [jeronimonunes/bigint](https://github.com/jeronimonunes/bigint) (C++ code).
