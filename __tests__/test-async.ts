@@ -88,9 +88,7 @@ describe.each([
   ],
 ])('', (problem, errMsg) => {
   test(`${i++}. Syntax error in problem`, async () => {
-    const assertions = (simplexIsOK() === true)? 1:0;
-
-    expect.assertions(assertions);
+    expect.assertions(1);
     try {
       await solveAsync(problem);
     } catch (e) {
@@ -103,16 +101,18 @@ describe.each([
 
 // Error in SimplexTableau
 test(`${i++}. Erroneous SimplexTableau should arise reject`, async () => {
-  expect.assertions(1);
+  const assertions = (simplexIsOK() === true)? 1:0;
+
+  expect.assertions(assertions);
 
   const a: Fraction[][] = [];
   const b: Fraction[] = [];
   const c: Fraction[] = [];
   const vars: string[] = [];
   const tableau: SimplexTableau<Fraction> = { a, b, c, vars };
-    try {
-      await simplexAsync(tableau);
-    } catch (e) {
-      expect(e.toString()).toMatch('');
-    }
-  });
+  try {
+    await simplexAsync(tableau);
+  } catch (e) {
+    expect(e.toString()).toMatch('');
+  }
+});
