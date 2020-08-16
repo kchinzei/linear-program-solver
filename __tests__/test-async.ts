@@ -88,7 +88,7 @@ describe.each([
   ],
 ])('', (problem, errMsg) => {
   test(`${i++}. Syntax error in problem`, async () => {
-    const assertions = simplexIsOK()? 1:0;
+    const assertions = (simplexIsOK() === true)? 1:0;
 
     expect.assertions(assertions);
     try {
