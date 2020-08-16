@@ -28,10 +28,12 @@ Linear-program-solver can accept the output of [linear-program-parser](https://w
 
 ## Code snippets
 
+Sync version
+
 ```TypeScript
-import { parse, Fpi } from 'linear-program-parser';
+import { parse } from 'linear-program-parser';
 import { simplex, findSolution, simplexIsOK  } from 'linear-program-solver';
-import { SimplexTableau, SimplexSolution } from 'linear-program-solver';
+import { SimplexSolution } from 'linear-program-solver';
 
 const linearProgram = parse('max(-3a -4b +5c -5d)
     st:
@@ -45,29 +47,66 @@ const linearProgram = parse('max(-3a -4b +5c -5d)
         d >= 0;
 ');
 
+if (simplexIsOK()) {
+  const fpi = linearProgram.toFPI();
+  const val: SimplexSolution = simplex(fpi.toMatrix());
+  const a: number = findSolution('a', val.solution, val.vars);
+  ...
+}
+```
+
+Async version(1)
+
+```TypeScript
+import { parse } from 'linear-program-parser';
+import { simplexAsync, findSolution, simplexIsOK  } from 'linear-program-solver';
+import { SimplexSolution } from 'linear-program-solver';
+
+const linearProgram = parse('max(-3/10*a -4/10*b +5/10*c -5/10*d)
+    st:
+        +1a +1b <= +5;
+        -1a +0b -5c +5d <= -10;
+        a >= 0;
+        b >= 0;
+        c >= 0;
+        d >= 0;
+');
+
 const fpi = linearProgram.toFPI();
-const val: SimplexSolution = simplex(fpi.toMatrix());
+const val: SimplexSolution = await simplexAsync(fpi.toMatrix());
 const a: number = findSolution('a', val.solution, val.vars);
 ...
 ```
 
-##### type SimplexTableau\<T\>
-
-Generic type for argument of simplex(). Currently `T` is `Fraction` for Simplex().
-
-##### type SimplexSolution
-
-Type of return object of simplex().
+Async version(2)
 
 ```TypeScript
-extern type SimplexSolution {
-  result: ( 'otima' | 'ilimitada' | 'inviavel' );
-  solution: number[];
-  vars: string[];
+import { solveAsync, SimplexSolution } from 'linear-program-solver';
+
+const problem = 'max(-3/10*a -4/10*b +5/10*c -5/10*d)
+    st:
+        +1a +1b <= +5;
+        -1a +0b -5c +5d <= -10;
+        +2a +1b +1c -1d <= +10;
+        -2a -1b -1c +1d <= -10;
+        a >= 0;
+        b >= 0;
+        c >= -3;
+';
+
+try {
+  const val: SimplexSolution = await solveAsync(problem);
+} catch (e) {
+  console.log(e);
 }
+...
 ```
 
+### Functions
+
 ##### function simplex(arg: SimplexTableau<Fraction>): SimplexSolution
+
+##### async function simplexAsync(arg: SimplexTableau<Fraction>): Promise<SimplexSolution>
 
 Solves standard form matrix and vectors provided by Fpi.
 Input arguments are those of the output of Fpi.toMatrix().
@@ -95,13 +134,35 @@ If _variableName_ is not in _vars_, it returns NaN.
 
 Returns true when build condition meets. Else, return false;
 
+##### async function solveAsync(problem: string): Promise<SimplexSolution>
+
+A service function that does everything from parsing the _problem_ to solve.
+
+### Types
+
+##### type SimplexTableau\<T\>
+
+Generic type for argument of simplex(). Currently `T` is `Fraction` for Simplex().
+
+##### type SimplexSolution
+
+Type of return object of simplex().
+
+```TypeScript
+extern type SimplexSolution {
+  result: ( 'otima' | 'ilimitada' | 'inviavel' );
+  solution: number[];
+  vars: string[];
+}
+```
+
 ## Install
 
 ```Shell
 > npm i linear-program-solver
 ```
 
-### Trouble shooting
+## Trouble shooting
 
 #### Warning _'Compiler supporting C++-17 or newer required'_
 
@@ -139,6 +200,10 @@ If you already have a C++ compiler, python, node-gyp and installed every necessa
 > cd c:\users\your\prefered\folder
 > git clone https://github.com/kchinzei/linear-program-solver.git
 > cd linear-program-solver
+> git clone https://github.com/jeronimonunes/simplex.git
+> cd simplex
+> git clone https://github.com/jeronimonunes/bigint.git
+> cd .. (note: you go back to linear-program-solver.)
 > node-gyp rebuild
 > npm run build
 > cd c:\users\your\root

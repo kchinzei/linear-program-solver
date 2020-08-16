@@ -31,7 +31,7 @@ THE SOFTWARE.
 */
 
 
-import { Fraction } from 'linear-program-parser';
+import { Fraction, parse, Fpi } from 'linear-program-parser';
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-var-requires
 const simplexWrapper = require('bindings')('simplex_wrapper');
 
@@ -50,6 +50,40 @@ export type SimplexSolution = {
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 export const simplex: (arg: SimplexTableau<Fraction>) => SimplexSolution = simplexWrapper.simplex_wrapper;
+
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+export async function simplexAsync(arg: SimplexTableau<Fraction>): Promise<SimplexSolution> {
+  return new Promise((resolve, reject) => {
+    try {
+      // eslint-disable-next-line  @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+      const res: SimplexSolution = simplexWrapper.simplex_wrapper(arg);
+      resolve(res);
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+
+export async function solveAsync(problem: string): Promise<SimplexSolution> {
+
+  // eslint-disable-next-line prefer-arrow/prefer-arrow-functions, @typescript-eslint/naming-convention
+  async function parseAsync(problem_: string): Promise<SimplexTableau<Fraction>> {
+    return new Promise((resolve, reject) => {
+      try {
+        const linearProgram = parse(problem_);
+        const fpi: Fpi = linearProgram.toFPI();
+        const tableau_: SimplexTableau<Fraction> = fpi.toMatrix();
+        resolve(tableau_);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+
+  const tableau: SimplexTableau<Fraction> = await parseAsync(problem);
+  const res: SimplexSolution = await simplexAsync(tableau);
+  return res;
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 export const simplexIsOK: () => boolean = simplexWrapper.simplex_wrapper;
