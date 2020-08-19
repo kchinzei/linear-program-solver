@@ -28,14 +28,14 @@ Linear-program-solver can accept the output of [linear-program-parser](https://w
 
 ## Code snippets
 
-Sync version
+Sync version example, as in [linear-program-parser](https://www.npmjs.com/package/linear-program-parser)
 
 ```TypeScript
 import { parse } from 'linear-program-parser';
 import { simplex, findSolution, simplexIsOK  } from 'linear-program-solver';
 import { SimplexSolution } from 'linear-program-solver';
 
-const linearProgram = parse('max(-3a -4b +5c -5d)
+const linearProgram = parse(`max(-3a -4b +5c -5d)
     st:
         +1a +1b +0c +0d <= +5;
         -1a +0b -5c +5d <= -10;
@@ -45,7 +45,7 @@ const linearProgram = parse('max(-3a -4b +5c -5d)
         b >= 0;
         c >= 0;
         d >= 0;
-');
+`);
 
 if (simplexIsOK()) {
   const fpi = linearProgram.toFPI();
@@ -62,7 +62,7 @@ import { parse } from 'linear-program-parser';
 import { simplexAsync, findSolution, simplexIsOK  } from 'linear-program-solver';
 import { SimplexSolution } from 'linear-program-solver';
 
-const linearProgram = parse('max(-3/10*a -4/10*b +5/10*c -5/10*d)
+const linearProgram = parse(`max(-3/10*a -4/10*b +5/10*c -5/10*d)
     st:
         +1a +1b <= +5;
         -1a +0b -5c +5d <= -10;
@@ -70,20 +70,21 @@ const linearProgram = parse('max(-3/10*a -4/10*b +5/10*c -5/10*d)
         b >= 0;
         c >= 0;
         d >= 0;
-');
+`);
 
 const fpi = linearProgram.toFPI();
-const val: SimplexSolution = await simplexAsync(fpi.toMatrix());
-const a: number = findSolution('a', val.solution, val.vars);
-...
+try {
+  const val: SimplexSolution = await simplexAsync(fpi.toMatrix());
+  const a: number = findSolution('a', val.solution, val.vars);
+  ...
 ```
 
-Async version(2)
+Async version(2) all-in-one
 
 ```TypeScript
 import { solveAsync, SimplexSolution } from 'linear-program-solver';
 
-const problem = 'max(-3/10*a -4/10*b +5/10*c -5/10*d)
+const problem = `max(-3/10*a -4/10*b +5/10*c -5/10*d)
     st:
         +1a +1b <= +5;
         -1a +0b -5c +5d <= -10;
@@ -92,7 +93,7 @@ const problem = 'max(-3/10*a -4/10*b +5/10*c -5/10*d)
         a >= 0;
         b >= 0;
         c >= -3;
-';
+`;
 
 try {
   const val: SimplexSolution = await solveAsync(problem);
@@ -104,9 +105,9 @@ try {
 
 ### Functions
 
-##### function simplex(arg: SimplexTableau<Fraction>): SimplexSolution
+##### function simplex(arg: SimplexTableau\<Fraction\>): SimplexSolution
 
-##### async function simplexAsync(arg: SimplexTableau<Fraction>): Promise<SimplexSolution>
+##### async function simplexAsync(arg: SimplexTableau\<Fraction\>): Promise\<SimplexSolution\>
 
 Solves standard form matrix and vectors provided by Fpi.
 Input arguments are those of the output of Fpi.toMatrix().
@@ -126,8 +127,8 @@ If your variable is _x_, it will be _xp_ and _xn_.
 ##### function findSolution(variableName: string, solution: number[], vars: string[]): number
 
 Obtain a solution that corresponds to _variableName_. _Solution_ and _vars_ are those given by simplex().
-If variable is replaced to positive and negative parts (e.g., _xp_ and _xn_ such that _x = xp - xn_),
-findSolution() will find both parts and returns the final solution (in above example, _x_).
+If variable is replaced to positive and negative parts (slack variables), e.g., _xp_ and _xn_ such that _x = xp - xn_,
+`findSolution()` will find both parts and returns the final solution (in above example, _x_).
 If _variableName_ is not in _vars_, it returns NaN.
 
 ##### function simplexIsOK(): boolean
@@ -142,7 +143,7 @@ A service function that does everything from parsing the _problem_ to solve.
 
 ##### type SimplexTableau\<T\>
 
-Generic type for argument of simplex(). Currently `T` is `Fraction` for Simplex().
+Generic type for argument of simplex(). Currently `T` is `Fraction` for `simplex()` and `simplexAsync()`.
 
 ##### type SimplexSolution
 
@@ -161,6 +162,24 @@ extern type SimplexSolution {
 ```Shell
 > npm i linear-program-solver
 ```
+
+## Tips to make LP program string
+
+[Linear-program-parser](https://www.npmjs.com/package/linear-program-parser) accepts the problem by a string. Here are some tips to make the problem string.
+
+- Fractional numbers (e.g., 123/100) are acceptable. You can convert floating numbers (e.g., 1.23) to fractional numbers using `Fraction.toFraction()` in [fraction.js](https://www.npmjs.com/package/fraction.js).
+- When you do so, don't forget '`*`' between number and variable: e.g., '123/100\*_a_'.
+- You can use both '_max_' or '_min_' for the objective function.
+- Only one objective function is accepted.
+  As a compromise, you can connect multiple objective functions by introducing weight factors applied to functions.
+- Variable constraint can be any. You can let linear-program-parser replace a nonzero constraint (>= 3, etc) by slack variables.
+- Variable names can be any string
+
+  - Starting by alphabet (not number, signs),
+  - Case sensitive,
+  - Not containing '\_f\_\_'.
+
+  However it should be avoided to use such names that `findSolution()` can confuse, e.g., ending with '_n_' or '_p_'.
 
 ## Trouble shooting
 
