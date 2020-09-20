@@ -1,6 +1,6 @@
 {
   "name": "linear-program-solver",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Wrapper package for simplex solver",
   "main": "dist/index.js",
   "scripts": {

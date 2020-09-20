@@ -145,7 +145,7 @@ A service function that does everything from parsing the _problem_ to solve.
 
 Generic type for argument of simplex(). Currently `T` is `Fraction` for `simplex()` and `simplexAsync()`.
 
-##### type SimplexSolution
+##### type SimplexSolution (To be obsolete)
 
 Type of return object of simplex().
 
@@ -157,11 +157,7 @@ extern type SimplexSolution {
 }
 ```
 
-## Install
-
-```Shell
-> npm i linear-program-solver
-```
+Note: This type will be obsolete, by replacing function by async ones.
 
 ## Tips to make LP program string
 
@@ -180,6 +176,12 @@ extern type SimplexSolution {
   - Not containing '\_f\_\_'.
 
   However it should be avoided to use such names that `findSolution()` can confuse, e.g., ending with '_n_' or '_p_'.
+
+## Install
+
+```Shell
+> npm i linear-program-solver
+```
 
 ## Trouble shooting
 
