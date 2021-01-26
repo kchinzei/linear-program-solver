@@ -187,10 +187,11 @@ Note: This type will be obsolete, by replacing function by async ones.
 
 #### Warning _'Compiler supporting C++-17 or newer required'_
 
-You may see this message during installation, if your default C++ compiler is so. You can specify other compiler by setting CXX environment parameter.
+You may see this message during installation, if your default C++ compiler is so. You can specify other compiler by setting CXX environment parameter before installation.
 
 ```Shell
-> export CXX=/your/new/c++/Compiler
+> export CXX=/your/newer/c++/Compiler
+> npm i linear-program-solver
 ```
 
 #### Solution seems wrong.
@@ -201,7 +202,7 @@ Three possible reasons.
 1. The given problem is grammatically wrong.
 1. Bugs of the solver or wrapper.
 
-During installation of this module, it compiles C++ code on your computer. Compiling this module requires N-API (node API) version 6 or greater, that comes with BigInt support. Node 10.20.0 has it. Node 11.15.0 seems not. See [the version matrix](https://nodejs.org/api/n-api.html#n_api_n_api_version_matrix).
+During installation of this module, it compiles C++ code. Compiling this module requires N-API (node API) version 6 or greater, that comes with BigInt support. Node 10.20.0 has it. Node 11.15.0 seems not. See [the version matrix](https://nodejs.org/api/n-api.html#n_api_n_api_version_matrix).
 
 In some cases, node-gyp you are running is old. Some Linux has a pretty old node-gyp that came with apt install. You can install the latest node-gyp by
 
@@ -213,7 +214,7 @@ To check the grammar of the problem, you may try [Simplex-web](https://jeronimon
 
 #### Failed to install to Windows
 
-Sorry, install scripts are written for Unix and I don' have a Windows PC. But the main code would and should work on Windows. If you can volunteer a script for Windows, very welcome.
+Sorry, install scripts are written for Unix and I don't have a Windows PC to test. But the main code would and should work on Windows. If you can volunteer an istallation script for Windows, very welcome.
 
 If you already have a C++ compiler, python, node-gyp and installed every necessary module, you can manually build it from command console like this way (sorry not tested),
 
