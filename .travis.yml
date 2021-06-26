@@ -29,22 +29,12 @@
 language: node_js
 node_js:
   - 16  # NAPI_VERSION > 5
-os:
-  - linux
-  - osx
-dist: bionic
-env:
-  - CXX: g++
-  - CXX: clang++
 jobs:
   include:
     - dist: xenial  # g++ 5.4.0
       node_js: 16   # NAPI_VERSION > 5
-      python: 3.6
       env: CXX=g++
-  exclude:
-    - os: osx
-      env: CXX=g++  # It's actually clang in binary: no need to repeat.
+      install: pip3 install --upgrade pip
 
 script: "npm run travis"
 before_script:
