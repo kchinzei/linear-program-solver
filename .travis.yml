@@ -28,11 +28,7 @@
 ---
 language: node_js
 node_js:
-  - 10  # NAPI_VERSION > 5
-  - 11  # NAPI_VERSION <= 5
-  - 12  # NAPI_VERSION > 5
-  - 13  # NAPI_VERSION > 5
-  - 14  # NAPI_VERSION > 5
+  - 16  # NAPI_VERSION > 5
 os:
   - linux
   - osx
@@ -43,19 +39,8 @@ env:
 jobs:
   include:
     - dist: xenial  # g++ 5.4.0
-      node_js: 10   # NAPI_VERSION > 5
-      env: CXX=g++
-    - dist: xenial  # g++ 5.4.0
-      node_js: 11   # NAPI_VERSION <= 5
-      env: CXX=g++
-    - dist: xenial  # g++ 5.4.0
-      node_js: 12   # NAPI_VERSION > 5
-      env: CXX=g++
-    - dist: xenial  # g++ 5.4.0
-      node_js: 13   # NAPI_VERSION > 5
-      env: CXX=g++
-    - dist: xenial  # g++ 5.4.0
-      node_js: 14   # NAPI_VERSION > 5
+      node_js: 16   # NAPI_VERSION > 5
+      python: 3.6
       env: CXX=g++
   exclude:
     - os: osx
