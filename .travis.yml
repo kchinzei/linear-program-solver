@@ -34,7 +34,7 @@ jobs:
     - dist: xenial  # g++ 5.4.0
       node_js: 16   # NAPI_VERSION > 5
       env: CXX=g++
-      install: pip3 install --upgrade pip
+      install: sudo apt install -y python3.8
 
 script: "npm run travis"
 before_script:
