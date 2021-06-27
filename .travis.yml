@@ -33,7 +33,9 @@ jobs:
   include:
     - dist: xenial  # g++ 5.4.0
       node_js: 16   # NAPI_VERSION > 5
-      env: CXX=g++
+      env:
+        - CXX=g++
+        - PYTHON=/user/bin/python3.8
       install:
         - sudo apt-get update
         - sudo apt-get install software-properties-common
