@@ -72,7 +72,7 @@ Fraction Obj2Fraction(Napi::Value val) {
     int64_t d = 0;
 #endif  // NAPI_VERSION > 5
 
-    // FIXME: coeration from int64_t to long is not perservative. But BigInteger does not accept long long.
+    // FIXME: coercion from int64_t to long is not preservative. But BigInteger does not accept long long.
     BigInteger N = BigInteger((long)n);
     BigInteger D = BigInteger((long)d);
     Fraction f = Fraction(N, D);
@@ -120,8 +120,6 @@ Napi::Value Solve(const Napi::CallbackInfo& info) {
       return Usage(env, "Wrong argument.");
   }
 
-#if (__cplusplus >= 201703L && NAPI_VERSION > 5)
-
   Napi::Object obj = info[0].As<Napi::Object>();
   if (!obj.Has("a") || !obj.Has("b") || !obj.Has("c") || !obj.Has("vars"))
       return Usage(env, "Wrong argument.");
@@ -166,7 +164,9 @@ Napi::Value Solve(const Napi::CallbackInfo& info) {
   if (!vars0.IsString())
       return Usage(env, "Wrong arguments: expecting vars: string[]");
 
-  // Prepare the tablau
+#if (__cplusplus >= 201703L && NAPI_VERSION > 5)
+
+  // Prepare the tabloid
   Matrix A;
   Vector B;
   Vector C;
@@ -242,14 +242,14 @@ Napi::Value Solve(const Napi::CallbackInfo& info) {
   resultObj.Set("solution", solution);
   resultObj.Set("vars", vars);
 
-#else // __cplusplus >= 201703L
+#else // (__cplusplus >= 201703L && NAPI_VERSION > 5)
 
   Napi::Object resultObj = Napi::Object::New(env);
   resultObj.Set("result", Napi::String::New(env, "inviavel"));
   resultObj.Set("solution", Napi::Array::New(env, 0));
   resultObj.Set("vars", Napi::Array::New(env, 0));
 
-#endif // __cplusplus >= 201703L
+#endif // (__cplusplus >= 201703L && NAPI_VERSION > 5)
 
   return resultObj;
 }

@@ -36,22 +36,22 @@ import { simplexAsync, solveAsync, findSolution, simplexIsOK, SimplexSolution, S
 let i=0;
 
 /*
-  Solutions obtained from descrete run of linear-program-parser and simplex.
+  Solutions obtained from discrete run of linear-program-parser and simplex.
 */
 
 // non-negative constraints, limited solution
 describe.each([
   // Problem and solution given by https://jeronimonunes.github.io/simplex-web/
-  ['max(-3a -4b +5c -5d) \n\
-    st: \n\
-        +1a +1b +0c +0d <= +5; \n\
-        -1a +0b -5c +5d <= -10; \n\
-        +2a +1b +1c -1d <= +10; \n\
-        -2a -1b -1c +1d <= -10; \n\
-        a >= 0; \n\
-        b >= 0; \n\
-        c >= 0; \n\
-        d >= 0; ',
+  [`max(-3a -4b +5c -5d)
+    st:
+        +1a +1b +0c +0d <= +5;
+        -1a +0b -5c +5d <= -10;
+        +2a +1b +1c -1d <= +10;
+        -2a -1b -1c +1d <= -10;
+        a >= 0;
+        b >= 0;
+        c >= 0;
+        d >= 0;`,
    'otima', 0, 0, 10, 0, 5, 40, 0, 0]
 ])('', (problem, resultTxt, a, b, c, d, f_1, f_2, f_3, f_4) => {
   test(`${i++}. `, async () => {
@@ -74,16 +74,16 @@ describe.each([
 
 describe.each([
   // Syntax error in problem. (missing '-' at -5d)
-  ['max(-3a -4b +5c 5d) \n\
-    st: \n\
-        +1a +1b +0c +0d <= +5; \n\
-        -1a +0b -5c +5d <= -10; \n\
-        +2a +1b +1c -1d <= +10; \n\
-        -2a -1b -1c +1d <= -10; \n\
-        a >= 0; \n\
-        b >= 0; \n\
-        c >= 0; \n\
-        d >= 0; ',
+  [`max(-3a -4b +5c 5d)
+    st:
+        +1a +1b +0c +0d <= +5;
+        -1a +0b -5c +5d <= -10;
+        +2a +1b +1c -1d <= +10;
+        -2a -1b -1c +1d <= -10;
+        a >= 0;
+        b >= 0;
+        c >= 0;
+        d >= 0;`,
    'SyntaxError: Expected \")\", \"*\", \"+\", \"-\", or \"/\" but \"5\" found.'
   ],
 ])('', (problem, errMsg) => {
@@ -111,7 +111,8 @@ test(`${i++}. Erroneous SimplexTableau should arise reject`, async () => {
   const vars: string[] = [];
   const tableau: SimplexTableau<Fraction> = { a, b, c, vars };
   try {
-    await simplexAsync(tableau);
+    const res: SimplexSolution = await simplexAsync(tableau);
+    console.log(res);
   } catch (e) {
     expect(e.toString()).toMatch('');
   }

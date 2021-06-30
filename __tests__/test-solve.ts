@@ -36,61 +36,61 @@ import { simplex, findSolution, SimplexTableau, SimplexSolution, simplexIsOK } f
 let i=0;
 
 /*
-  Solutions obtained from descrete run of linear-program-parser and simplex.
+  Solutions obtained from discrete run of linear-program-parser and simplex.
 */
 
 // non-negative constraints, limited solution
 describe.each([
   // Problem and solution given by https://jeronimonunes.github.io/simplex-web/
-  ['max(-3a -4b +5c -5d) \n\
-    st: \n\
-        +1a +1b +0c +0d <= +5; \n\
-        -1a +0b -5c +5d <= -10; \n\
-        +2a +1b +1c -1d <= +10; \n\
-        -2a -1b -1c +1d <= -10; \n\
-        a >= 0; \n\
-        b >= 0; \n\
-        c >= 0; \n\
-        d >= 0; ',
+  [`max(-3a -4b +5c -5d)
+    st:
+        +1a +1b +0c +0d <= +5;
+        -1a +0b -5c +5d <= -10;
+        +2a +1b +1c -1d <= +10;
+        -2a -1b -1c +1d <= -10;
+        a >= 0;
+        b >= 0;
+        c >= 0;
+        d >= 0; `,
    'otima', 0, 0, 10, 0, 5, 40, 0, 0],
 
-  // Probelm is x10ed. Should be same solution.
-  ['max(-30a -40b +50c -50d) \n\
-    st: \n\
-        +10a +10b  +0c  +0d <= +50; \n\
-        -10a  +0b -50c +50d <= -100; \n\
-        +20a +10b +10c -10d <= +100; \n\
-        -20a -10b -10c +10d <= -100; \n\
-        a >= 0; \n\
-        b >= 0; \n\
-        c >= 0; \n\
-        d >= 0; ',
+  // Problem is x10ed. Should be same solution.
+  [`max(-30a -40b +50c -50d)
+    st:
+        +10a +10b  +0c  +0d <= +50;
+        -10a  +0b -50c +50d <= -100;
+        +20a +10b +10c -10d <= +100;
+        -20a -10b -10c +10d <= -100;
+        a >= 0;
+        b >= 0;
+        c >= 0;
+        d >= 0; `,
    'otima', 0, 0, 10, 0, 50, 400, 0, 0],
 
-  // Fractionl introduced. Problem is /100ed.
-  ['max(3a -4b +5c -5d) \n\
-    st: \n\
-        +1/100*a +1/100*b +0/100*c +0/100*d <= +5/100; \n\
-        -1/100*a +0/100*b -5/100*c +5/100*d <= -10/100; \n\
-        +2/100*a +1/100*b +1/100*c -1/100*d <= +10/100; \n\
-        -2/100*a -1/100*b -1/100*c +1/100*d <= -10/100; \n\
-        a >= 0; \n\
-        b >= 0; \n\
-        c >= 0; \n\
-        d >= 0; ',
+  // Fractional introduced. Problem is /100ed.
+  [`max(3a -4b +5c -5d)
+    st:
+        +1/100*a +1/100*b +0/100*c +0/100*d <= +5/100;
+        -1/100*a +0/100*b -5/100*c +5/100*d <= -10/100;
+        +2/100*a +1/100*b +1/100*c -1/100*d <= +10/100;
+        -2/100*a -1/100*b -1/100*c +1/100*d <= -10/100;
+        a >= 0;
+        b >= 0;
+        c >= 0;
+        d >= 0; `,
    'otima', 0, 0, 10, 0, 1/20, 2/5, 0, 0],
 
   // Same condition, proportional objective function >> Should give same solution.
-  ['max(3/100*a -4/100*b +5/100*c -5/100*d) \n\
-    st: \n\
-        +1/100*a +1/100*b +0/100*c +0/100*d <= +5/100; \n\
-        -1/100*a +0/100*b -5/100*c +5/100*d <= -10/100; \n\
-        +2/100*a +1/100*b +1/100*c -1/100*d <= +10/100; \n\
-        -2/100*a -1/100*b -1/100*c +1/100*d <= -10/100; \n\
-        a >= 0; \n\
-        b >= 0; \n\
-        c >= 0; \n\
-        d >= 0; ',
+  [`max(3/100*a -4/100*b +5/100*c -5/100*d)
+    st:
+        +1/100*a +1/100*b +0/100*c +0/100*d <= +5/100;
+        -1/100*a +0/100*b -5/100*c +5/100*d <= -10/100;
+        +2/100*a +1/100*b +1/100*c -1/100*d <= +10/100;
+        -2/100*a -1/100*b -1/100*c +1/100*d <= -10/100;
+        a >= 0;
+        b >= 0;
+        c >= 0;
+        d >= 0; `,
    'otima', 0, 0, 10, 0, 1/20, 2/5, 0, 0],
 
 ])('', (problem, resultTxt, a, b, c, d, f_1, f_2, f_3, f_4) => {
@@ -156,7 +156,7 @@ describe.each([
 
 
 
-// non-negative constraints, infeasible proble (= no solution)
+// non-negative constraints, infeasible problem (= no solution)
 describe.each([
   // Problem and solution given by https://jeronimonunes.github.io/simplex-web/
   ['max(-3a -4b +5c -5d) \n\
