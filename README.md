@@ -115,7 +115,7 @@ Input arguments are those of the output of Fpi.toMatrix().
 _Result_ is either of 'otima', 'ilimitada', 'inviavel' (in Portuguese), which mean
 
 - _great, a feasible solution found in limited iterations_,
-- _okey, a solution found but iteration didn't converge_,
+- _okay, a solution found but iteration didn't converge_,
 - _sorry, it's infeasible to solve_.
 
 When build condition did not meet, it always returns 'inviavel' without solving simplex.
