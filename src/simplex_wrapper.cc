@@ -120,6 +120,8 @@ Napi::Value Solve(const Napi::CallbackInfo& info) {
       return Usage(env, "Wrong argument.");
   }
 
+#if (__cplusplus >= 201703L && NAPI_VERSION > 5)
+
   Napi::Object obj = info[0].As<Napi::Object>();
   if (!obj.Has("a") || !obj.Has("b") || !obj.Has("c") || !obj.Has("vars"))
       return Usage(env, "Wrong argument.");
@@ -163,8 +165,6 @@ Napi::Value Solve(const Napi::CallbackInfo& info) {
   Napi::Value vars0 = vars[(uint32_t)0];
   if (!vars0.IsString())
       return Usage(env, "Wrong arguments: expecting vars: string[]");
-
-#if (__cplusplus >= 201703L && NAPI_VERSION > 5)
 
   // Prepare the tabloid
   Matrix A;
