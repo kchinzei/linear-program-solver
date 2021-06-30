@@ -120,16 +120,16 @@ describe.each([
 // non-negative constraints, unlimited solution
 describe.each([
   // Problem and solution given by https://jeronimonunes.github.io/simplex-web/
-  ['max(-3a -4b +5c -5d) \n\
-    st: \n\
-        +1a +1b +0c +0d <= +5; \n\
-        -1a +0b -5c +5d <= -10; \n\
-        +2a +1b +1/10*c -1d <= +10; \n\
-        -2a -1b -1c +1d <= -10; \n\
-        a >= 0; \n\
-        b >= 0; \n\
-        c >= 0; \n\
-        d >= 0; ',
+  [`max(-3a -4b +5c -5d)
+    st:
+        +1a +1b +0c +0d <= +5;
+        -1a +0b -5c +5d <= -10;
+        +2a +1b +1/10*c -1d <= +10;
+        -2a -1b -1c +1d <= -10;
+        a >= 0;
+        b >= 0;
+        c >= 0;
+        d >= 0; `,
      'ilimitada', 0, 0, 100, 0, 5, 490, 0, 90]
 
 ])('', (problem, resultTxt, a, b, c, d, f_1, f_2, f_3, f_4) => {
@@ -159,16 +159,16 @@ describe.each([
 // non-negative constraints, infeasible problem (= no solution)
 describe.each([
   // Problem and solution given by https://jeronimonunes.github.io/simplex-web/
-  ['max(-3a -4b +5c -5d) \n\
-    st: \n\
-        +1a +1b +0c +0d <= +5; \n\
-        -1a +0b -5c +5d <= -10; \n\
-        +2a +1b +1c -1d <= +10; \n\
-        -2a -1b +1c +1d <= -10; \n\
-        a >= 0; \n\
-        b >= 0; \n\
-        c >= 0; \n\
-        d >= 0; ',
+  [`max(-3a -4b +5c -5d)
+    st:
+        +1a +1b +0c +0d <= +5;
+        -1a +0b -5c +5d <= -10;
+        +2a +1b +1c -1d <= +10;
+        -2a -1b +1c +1d <= -10;
+        a >= 0;
+        b >= 0;
+        c >= 0;
+        d >= 0; `,
    'inviavel'],
 
 ])('', (problem, resultTxt) => {
@@ -187,27 +187,27 @@ describe.each([
 // non-negative constraints, limited solution
 describe.each([
   // Problem and solution given by https://jeronimonunes.github.io/simplex-web/
-  ['max(-3a -4b +5c -5d) \n\
-    st: \n\
-        +1a +1b +0c +0d <= +5; \n\
-        -1a +0b -5c +5d <= -10; \n\
-        +2a +1b +1c -1d <= +10; \n\
-        -2a -1b -1c +1d <= -10; \n\
-        a >= 0; \n\
-        b >= -4; \n\
-        c >= 0; ',
+  [`max(-3a -4b +5c -5d)
+    st:
+        +1a +1b +0c +0d <= +5;
+        -1a +0b -5c +5d <= -10;
+        +2a +1b +1c -1d <= +10;
+        -2a -1b -1c +1d <= -10;
+        a >= 0;
+        b >= -4;
+        c >= 0; `,
    'otima', 0, -4, 14, 0],
 
   // Same condition, proportional objective function >> Should give same solution.
-  ['max(3/100*a -4/100*b +5/100*c -5/100*d) \n\
-    st: \n\
-        +1/100*a +1/100*b +0/100*c +0/100*d <= +5/100; \n\
-        -1/100*a +0/100*b -5/100*c +5/100*d <= -10/100; \n\
-        +2/100*a +1/100*b +1/100*c -1/100*d <= +10/100; \n\
-        -2/100*a -1/100*b -1/100*c +1/100*d <= -10/100; \n\
-        a >= 0; \n\
-        b >= -4/100; \n\
-        c >= 0; ',
+  [`max(3/100*a -4/100*b +5/100*c -5/100*d)
+    st:
+        +1/100*a +1/100*b +0/100*c +0/100*d <= +5/100;
+        -1/100*a +0/100*b -5/100*c +5/100*d <= -10/100;
+        +2/100*a +1/100*b +1/100*c -1/100*d <= +10/100;
+        -2/100*a -1/100*b -1/100*c +1/100*d <= -10/100;
+        a >= 0;
+        b >= -4/100;
+        c >= 0; `,
    'otima', 0, -0.04, 10.04, 0]
 
 ])('', (problem, res, a, b, c, d) => {

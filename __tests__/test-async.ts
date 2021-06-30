@@ -111,8 +111,7 @@ test(`${i++}. Erroneous SimplexTableau should arise reject`, async () => {
   const vars: string[] = [];
   const tableau: SimplexTableau<Fraction> = { a, b, c, vars };
   try {
-    const res: SimplexSolution = await simplexAsync(tableau);
-    console.log(res);
+    await simplexAsync(tableau);
   } catch (e) {
     expect(e.toString()).toMatch('');
   }

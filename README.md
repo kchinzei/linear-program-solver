@@ -9,7 +9,7 @@ JS/TS wrapper for [simplex](https://github.com/jeronimonunes/simplex) linear pro
 
 ## Requirements
 
-- Linux or macOS (Windows also by manual installation, see [Trouble shooting](#trouble-shooting))
+- Linux or macOS (may work on Windows also by manual installation, see [Trouble shooting](#trouble-shooting))
 - C++ compiler with C++-17 or newer support.
 - Node 10.20.0 or newer except 11. (To be exact, N-API version 6 or newer)
 - [linear-program-parser](https://www.npmjs.com/package/linear-program-parser) 1.0.11 or newer (npm module).
@@ -105,9 +105,9 @@ try {
 
 ### Functions
 
-##### function simplex(arg: SimplexTableau\<Fraction\>): SimplexSolution
+#### `function simplex(arg: SimplexTableau<Fraction>): SimplexSolution`
 
-##### async function simplexAsync(arg: SimplexTableau\<Fraction\>): Promise\<SimplexSolution\>
+#### `async function simplexAsync(arg: SimplexTableau<Fraction>): Promise<SimplexSolution>`
 
 Solves standard form matrix and vectors provided by Fpi.
 Input arguments are those of the output of Fpi.toMatrix().
@@ -124,28 +124,28 @@ _Solution_ and _vars_ are in pair. _Vars_ is an array of given variables to solv
 If a given variable is not constrained nonnegative, it is replaced by two nonnegative variables.
 If your variable is _x_, it will be _xp_ and _xn_.
 
-##### function findSolution(variableName: string, solution: number[], vars: string[]): number
+#### `function findSolution(variableName: string, solution: number[], vars: string[]): number`
 
 Obtain a solution that corresponds to _variableName_. _Solution_ and _vars_ are those given by simplex().
 If variable is replaced to positive and negative parts (slack variables), e.g., _xp_ and _xn_ such that _x = xp - xn_,
 `findSolution()` will find both parts and returns the final solution (in above example, _x_).
 If _variableName_ is not in _vars_, it returns NaN.
 
-##### function simplexIsOK(): boolean
+#### `function simplexIsOK(): boolean`
 
 Returns true when build condition meets. Else, return false;
 
-##### async function solveAsync(problem: string): Promise<SimplexSolution>
+#### `async function solveAsync(problem: string): Promise<SimplexSolution>`
 
 A service function that does everything from parsing the _problem_ to solve.
 
 ### Types
 
-##### type SimplexTableau\<T\>
+#### `type SimplexTableau<T>`
 
 Generic type for argument of simplex(). Currently `T` is `Fraction` for `simplex()` and `simplexAsync()`.
 
-##### type SimplexSolution (To be obsolete)
+#### `type SimplexSolution` (To be obsolete)
 
 Type of return object of simplex().
 
