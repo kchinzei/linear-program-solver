@@ -214,7 +214,7 @@ To check the grammar of the problem, you may try [Simplex-web](https://jeronimon
 
 #### Failed to install to Windows
 
-Sorry, install scripts are written for Unix and I don't have a Windows PC to test. But the main code would and should work on Windows. If you can volunteer an istallation script for Windows, very welcome.
+Sorry, install scripts are written for Unix and I don't have a Windows PC to test. But the main code would and should work on Windows. If you can volunteer an installation script for Windows, very welcome.
 
 If you already have a C++ compiler, python, node-gyp and installed every necessary module, you can manually build it from command console like this way (sorry not tested),
 
@@ -222,10 +222,7 @@ If you already have a C++ compiler, python, node-gyp and installed every necessa
 > cd c:\users\your\prefered\folder
 > git clone https://github.com/kchinzei/linear-program-solver.git
 > cd linear-program-solver
-> git clone https://github.com/jeronimonunes/simplex.git
-> cd simplex
-> git clone https://github.com/jeronimonunes/bigint.git
-> cd .. (note: you go back to linear-program-solver.)
+> git submodule update --init --recursive
 > node-gyp rebuild
 > npm run build
 > cd c:\users\your\root
