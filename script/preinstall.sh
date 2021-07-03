@@ -22,8 +22,6 @@
 # SOFTWARE.
 
 # Constants
-github_simplex="https://github.com/jeronimonunes/simplex"
-github_bigint="https://github.com/jeronimonunes/bigint"
 binding_real="./script/binding.gyp"
 binding_dummy="./script/binding.gyp-dummy"
 
@@ -77,25 +75,8 @@ fi
 if [ "$iscpp17" = "C++17" ]; then
     cd $currentDir
 
-    if ! [ -d ./simplex -a -f ./simplex/src/Base.hh ]; then
-        git clone $github_simplex
-        if [ $? -ne 0 ]; then
-            echo "Downloading C++ code for simplex failed. Abort"
-            exit 1
-        fi
-    fi
+    git submodule update --init --recursive
 
-    cd simplex
-
-    if ! [ -d ./bigint -a -f ./bigint/BigInteger.hh ]; then
-        git clone $github_bigint
-        if [ $? -ne 0 ]; then
-            echo "Downloading C++ code for bigint failed. Abort"
-            exit 1
-        fi
-    fi
-
-    cd $currentDir
     need_binding_refresh="no"
     if [ -f binding.gyp -a -f $binding_real ]; then
         diff=`diff -q binding.gyp $binding_real`
