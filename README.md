@@ -9,7 +9,7 @@ JS/TS wrapper for [simplex](https://github.com/jeronimonunes/simplex) linear pro
 
 ## Requirements
 
-- Linux or macOS (may work on Windows also by manual installation, see [Trouble shooting](#trouble-shooting))
+- Linux or macOS (may work also on Windows by manual installation, see [Trouble shooting](#trouble-shooting))
 - C++ compiler with C++-17 or newer support.
 - Node 10.20.0 or newer except 11. (To be exact, N-API version 6 or newer)
 - [linear-program-parser](https://www.npmjs.com/package/linear-program-parser) 1.0.11 or newer (npm module).
@@ -214,7 +214,7 @@ To check the grammar of the problem, you may try [Simplex-web](https://jeronimon
 
 #### Failed to install to Windows
 
-Sorry, install scripts are written for Unix and I don't have a Windows PC to test. But the main code would and should work on Windows. If you can volunteer an installation script for Windows, very welcome.
+Sorry, install scripts are written for Unix (tested on Linux, macOS) and I don't have a Windows PC to test. But the main code would and should work on Windows. If you can volunteer an installation script for Windows, very welcome.
 
 If you already have a C++ compiler, python, node-gyp and installed every necessary module, you can manually build it from command console like this way (sorry not tested),
 
